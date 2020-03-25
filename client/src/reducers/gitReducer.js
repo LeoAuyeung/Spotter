@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
 		case GET_COMMITS:
 			return {
 				...state,
-				commits: action.payload
+				commits: action.payload.filter(x => x.type === "PushEvent")
 			};
 		default:
 			return state;

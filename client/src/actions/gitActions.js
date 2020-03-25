@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_COMMITS } from "./gitActions.js";
+import { GET_COMMITS } from "./actionTypes.js";
 
 // Actions
 const getCommits = commits => {
@@ -16,8 +16,7 @@ export const getCommitsThunk = () => async dispatch => {
 		const res = await axios.get(
 			"https://api.github.com/repos/LeoAuyeung/Spotter/events"
 		);
-		console.log(res);
-		dispatch(getCommits(res));
+		dispatch(getCommits(res.data));
 	} catch (err) {
 		console.log(err);
 	}
