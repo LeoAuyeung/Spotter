@@ -1,4 +1,4 @@
-import { GET_COMMITS } from "../actions/actionTypes.js";
+import { GET_COMMITS, CLEAR_COMMITS } from "../actions/actionTypes.js";
 
 const initialState = {
 	commits: []
@@ -10,6 +10,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				commits: action.payload.filter(x => x.type === "PushEvent")
+			};
+		case CLEAR_COMMITS:
+			return {
+				...state,
+				commits: []
 			};
 		default:
 			return state;

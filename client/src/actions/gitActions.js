@@ -1,12 +1,18 @@
 import axios from "axios";
 
-import { GET_COMMITS } from "./actionTypes.js";
+import { GET_COMMITS, CLEAR_COMMITS } from "./actionTypes.js";
 
 // Actions
 const getCommits = commits => {
 	return {
 		type: GET_COMMITS,
 		payload: commits
+	};
+};
+
+export const clearCommits = () => {
+	return {
+		type: CLEAR_COMMITS
 	};
 };
 

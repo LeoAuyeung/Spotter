@@ -1,12 +1,13 @@
 import React from "react";
 
 const GithubView = props => {
-	const { commits } = props;
+	const { commits, handleGet, handleClear } = props;
 
 	return (
 		<div>
 			<h1>Github</h1>
-			<button onClick={props.handleButton}>Get Commits</button>
+			<button onClick={handleGet}>Get Commits</button>
+			<button onClick={handleClear}>Clear Commits</button>
 			<div>
 				{commits.map(c => {
 					return (
