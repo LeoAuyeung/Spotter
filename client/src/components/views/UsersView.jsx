@@ -1,10 +1,20 @@
 import React from "react";
 
 const UsersView = props => {
+    const {users} = props
 	return (
-		<div>
-			<h1>People </h1>
-		</div>
+        <div>
+        {users.map(c => {
+            return (
+                <div>
+                    <ul>
+                        <li>{c.name}</li>
+                    </ul>
+                </div>
+            );
+        })}
+    </div>
+	
 	);
 };
 

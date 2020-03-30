@@ -4,8 +4,19 @@ import { connect } from "react-redux";
 import { UsersView } from "../views";
 
 class UsersContainer extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            users: [
+                {name: "mary"},
+                {name: "bob"}
+            ]
+        }
+    }
 	render() {
-		return <UsersView />;
+		return <UsersView 
+            users={this.state.users}
+        />;
 	}
 }
 
