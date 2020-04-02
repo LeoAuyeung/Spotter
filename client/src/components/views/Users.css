@@ -1,0 +1,28 @@
+.users-container{
+    border: 1px black solid;
+    width: 50%;
+    margin: 25px;
+    padding: 10px;
+    /* display: flex; */
+}
+/* 
+.row{
+    flex-direction: row;
+}
+
+.view-button{
+
+
+} */
+.btn{
+    margin:0 auto;
+    display:block;
+    background: transparent;
+    padding: 10px;
+    color: black;
+    border-radius: 4px;
+    font-size: .6em;
+}
+.pull-right{
+    float: right
+}

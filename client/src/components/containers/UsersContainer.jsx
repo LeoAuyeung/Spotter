@@ -7,15 +7,33 @@ class UsersContainer extends Component {
     constructor(props){
         super(props)
         this.state={
+            filter: "",
             users: [
-                {name: "mary"},
-                {name: "bob"}
+                {name: "mary", gender: "female"},
+                {name: "bob", gender: "male"}
             ]
         }
     }
+
+    handleChange = e =>{
+        this.setState({filter: e.target.value})
+    }
+
+    filterItems = () =>{
+        const {filter, users} = this.state;
+        const lowercaseFilter = filter.toLowerCase();
+        const filteredData = users.filter(item =>{
+            return Object.keys(item).some(key => item[key].toLowerCase().includes(lowercaseFilter))
+        })
+        return filteredData
+    }
+
 	render() {
 		return <UsersView 
             users={this.state.users}
+            filter = {this.state.filter}
+            handleChange = {this.handleChange}
+            filterItems = {this.filterItems}
         />;
 	}
 }

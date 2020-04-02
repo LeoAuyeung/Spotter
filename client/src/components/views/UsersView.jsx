@@ -1,16 +1,31 @@
 import React from "react";
-
+import "./Users.css"
 const UsersView = props => {
-    const {users} = props
+    const {users, filter, handleChange, filterItems} = props
 	return (
         <div>
-        {users.map(c => {
+             <div>
+                    {/* <button>male</button>
+                    <button>female</button> */}
+                    <input value ={filter} onChange = {handleChange}></input>
+
+            </div>
+        {filterItems(users).map(c => {
             return (
-                <div>
-                    <ul>
-                        <li>{c.name}</li>
-                    </ul>
-                </div>
+                   
+                    <div className = "users-container">
+                        {/* <ul>
+                            <li>{c.name}</li>
+                        </ul> */}
+                        <h1>
+                        <span>{c.name}</span>
+                        <button class= "btn btn-primary pull-right">View Profile</button>
+                        </h1>
+                    
+                    </div>
+
+
+               
             );
         })}
     </div>
