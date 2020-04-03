@@ -20,11 +20,9 @@ class UsersContainer extends Component {
     }
 
     filterItems = () =>{
-        const {filter, users} = this.state;
+        const { filter, users } = this.state;
         const lowercaseFilter = filter.toLowerCase();
-        const filteredData = users.filter(item =>{
-            return Object.keys(item).some(key => item[key].toLowerCase().includes(lowercaseFilter))
-        })
+        const filteredData = filter === "" ? users : users.filter(item => item.gender === lowercaseFilter);
         return filteredData
     }
 
