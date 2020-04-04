@@ -7,7 +7,12 @@ const UsersView = props => {
              <div>
                     {/* <button>male</button>
                     <button>female</button> */}
-                    <input value ={filter} onChange = {handleChange}></input>
+                    {/* <input value ={filter} onChange = {handleChange}></input> */}
+                    <select onChange={handleChange}>
+                        <option value= "">No filter</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
 
             </div>
         {filterItems(users).map(c => {
