@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Users.css"
 const UsersView = props => {
     const {users, filter, handleChange, filterItems} = props
@@ -24,7 +25,9 @@ const UsersView = props => {
                         </ul> */}
                         <h1>
                         <span>{c.name}</span>
-                        <button class= "btn btn-primary pull-right">View Profile</button>
+                        <Link to = "/profile">
+                            <button class= "btn btn-primary pull-right">View Profile</button>
+                        </Link>
                         </h1>
                     
                     </div>
