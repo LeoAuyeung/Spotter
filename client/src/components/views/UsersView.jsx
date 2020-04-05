@@ -25,7 +25,7 @@ const UsersView = props => {
                         </ul> */}
                         <h1>
                         <span>{c.name}</span>
-                        <Link to = "/profile">
+                        <Link to = {"/profile/"+c.name}>
                             <button class= "btn btn-primary pull-right">View Profile</button>
                         </Link>
                         </h1>

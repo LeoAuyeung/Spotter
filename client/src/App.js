@@ -10,7 +10,7 @@ function App() {
 		<Router>
 			<Route exact path="/" render={() => <HomeContainer />} />
 			<Route exact path="/users" render={() => <UsersContainer />} />
-			<Route exact path="/profile" render={() => <ProfileContainer />} />
+			<Route exact path="/profile/:name" render={() => <ProfileContainer />} />
 		</Router>
 	);
 }
