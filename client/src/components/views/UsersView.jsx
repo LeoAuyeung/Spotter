@@ -24,9 +24,10 @@ const UsersView = props => {
                             <li>{c.name}</li>
                         </ul> */}
                         <h1>
+                        <img src={c.img} className = "profile-img"></img>
                         <span>{c.name}</span>
                         <Link to = {"/profile/"+c.name}>
-                            <button class= "btn btn-primary pull-right">View Profile</button>
+                            <button className= "btn btn-primary pull-right">View Profile</button>
                         </Link>
                         </h1>
                     

@@ -9,8 +9,8 @@ class UsersContainer extends Component {
         this.state={
             filter: "",
             users: [
-                {name: "mary", gender: "female"},
-                {name: "bob", gender: "male"}
+                {name: "mary", gender: "female", img: "https://www.freeiconspng.com/uploads/female-icon-11.jpg"},
+                {name: "bob", gender: "male", img: "https://www.falconprecisionengineering.co.uk/wp-content/uploads/2017/03/male-profile.png"}
             ]
         }
     }
