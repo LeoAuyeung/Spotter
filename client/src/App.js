@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.css";
 
-import { HomeContainer, ProfileContainer, SignupContainer } from "./components";
+import { HomeContainer, SignupContainer, UsersContainer, ProfileContainer } from "./components";
 
 
 function App() {
@@ -11,9 +11,8 @@ function App() {
 		<Router>
 			<Route exact path="/" render={() => <SignupContainer />} />
 			<Route exact path="/home" render={() => <HomeContainer />} />
-
-			<Route exact path="/profile" render={() => <ProfileContainer />} />
-
+			<Route exact path="/users" render={() => <UsersContainer />} />
+			<Route exact path="/profile/:name" render={() => <ProfileContainer />} />
 		</Router>
 	);
 }
