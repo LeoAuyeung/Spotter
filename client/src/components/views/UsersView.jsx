@@ -1,19 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
+
 import "./Users.css"
 const UsersView = props => {
     const {users, filter, handleChange, filterItems} = props
 	return (
         <div>
              <div>
-                    {/* <button>male</button>
-                    <button>female</button> */}
-                    {/* <input value ={filter} onChange = {handleChange}></input> */}
-                    <select onChange={handleChange}>
-                        <option value= "">No filter</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
+                    <Select onChange={handleChange}>
+                            <MenuItem value="">Select a filter</MenuItem>
+                            <MenuItem value="male">Male</MenuItem>
+                            <MenuItem value="female">Female</MenuItem>
+                        </Select>
+                   
 
             </div>
         {filterItems(users).map(c => {
