@@ -3,15 +3,14 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.css";
 
-import { HomeContainer, ProfileContainer } from "./components";
-
+import { HomeContainer, UsersContainer, ProfileContainer } from "./components";
 
 function App() {
 	return (
 		<Router>
 			<Route exact path="/" render={() => <HomeContainer />} />
-			<Route exact path="/profile" render={() => <ProfileContainer />} />
-
+			<Route exact path="/users" render={() => <UsersContainer />} />
+			<Route exact path="/profile/:name" render={() => <ProfileContainer />} />
 		</Router>
 	);
 }
