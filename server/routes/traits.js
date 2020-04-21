@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var auth = require('../middleware/auth');
 
-const workoutsController = require("../controllers/workouts");
+const traitsController = require("../controllers/traits");
 
-router.route("/").get(workoutsController.getAllWorkouts);
+router.route("/").get(traitsController.getAllTraits);
 
 module.exports = router;

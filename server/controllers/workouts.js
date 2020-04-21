@@ -1,7 +1,6 @@
 var database = require('../models');
 
-
-const workoutController = {
+const workoutsController = {
 	getAllWorkouts: getAllWorkouts,
 };
 
@@ -9,9 +8,10 @@ async function getAllWorkouts(req, res, next) {
 	try {
 		var allWorkouts = await database.workouts.findAll();
 		res.status(200).json(allWorkouts);
-	} catch (err) {
+	}
+	catch (err) {
 		console.log(err);
 	}
 }
 
-module.exports = workoutController;
+module.exports = workoutsController;
