@@ -1,6 +1,7 @@
 
 var database = require('../models');
 var usersModel = require('../models/users');
+var decodeJwt = require('../middleware/decodeJwt');
 
 const accessTokenSecret = 'youraccesstokensecret';
 const jwt = require('jsonwebtoken');
@@ -14,14 +15,27 @@ const userController = {
 	getAllUsers: getAllUsers,
 	loginUser: loginUser,
 	registerUser: registerUser,
+	decodeJwtToken, decodeJwtToken,
 };
 
 async function getAllUsers(req, res, next) {
 	try {
+		const decoded = await decodeJwt(req.headers);
+		console.log(decoded.email)
 		var allUsers = await database.users.findAll();
 		res.status(200).json(allUsers);
 	} catch (err) {
 		console.log(err);
+	}
+}
+
+async function decodeJwtToken(req, res, next) {
+	try {
+		const decoded = await decodeJwt(req.headers);
+		res.status(200).json(decoded);
+	} catch (err) {
+		console.log(err);
+		res.status(401).json({ code: "error", message: "Jwt cannot be decoded." });
 	}
 }
 
