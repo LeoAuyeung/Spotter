@@ -1,7 +1,9 @@
 import React from "react";
 
-import { Form, Field } from 'react-final-form';
-import { TextField } from 'final-form-material-ui';
+// import { Form, Field } from 'react-final-form';
+// import { TextField } from 'final-form-material-ui';
+import TextField from '@material-ui/core/TextField';
+
 import {
   Paper,
   Grid,
@@ -9,54 +11,31 @@ import {
 } from '@material-ui/core';
 
 const EditProfileView = props => {
-	const {onSubmit} = props
+	const {handleSubmit, handleChange, description} = props
 	return (
 		<div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>     
-		  <Form
-			onSubmit={onSubmit}
-			render={({ handleSubmit, reset, submitting, pristine, values }) => (
 			  <form onSubmit={handleSubmit}>
 				<Paper style={{ padding: 16 }}>
 				  <Grid container alignItems="flex-start" spacing={2}>
-					<Grid item xs={6}>
-					  <Field
-						fullWidth
-						required
-						name="firstName"
-						component={TextField}
-						type="text"
-						label="First Name"
-					  />
-					</Grid>
-					<Grid item xs={6}>
-					  <Field
-						fullWidth
-						required
-						name="lastName"
-						component={TextField}
-						type="text"
-						label="Last Name"
-					  />
-					</Grid>
-					<Grid item xs={12}>
-					  <Field
-						name="email"
-						fullWidth
-						required
-						component={TextField}
-						type="email"
-						label="Email"
-					  />
-					</Grid>
+					
 	
 					<Grid item xs={12}>
-					  <Field
-						fullWidth
-						name="notes"
-						component={TextField}
-						multiline
-						label="Notes"
-					  />
+						<TextField
+							id="standard-helperText"
+							label="Description"
+							helperText="Change your description"
+							onChange = {handleChange}
+							name = "description"
+							value = {description}
+
+							/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							id="standard-helperText"
+							label="Workouts"
+							helperText="Change your workouts"
+							/>
 					</Grid>
 					 
 					<Grid item style={{ marginTop: 16 }}>
@@ -64,7 +43,6 @@ const EditProfileView = props => {
 						variant="contained"
 						color="primary"
 						type="submit"
-						disabled={submitting}
 					  >
 						Submit
 					  </Button>
@@ -72,8 +50,6 @@ const EditProfileView = props => {
 				  </Grid>
 				</Paper>
 			  </form>
-			)}
-		  />
 		</div>
 	  );
 };
