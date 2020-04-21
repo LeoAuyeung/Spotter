@@ -16,11 +16,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    startTime: {
-      type: "ARRAY",
+    endTime: {
+      type: DataTypes.TIME,
       allowNull: false
     },
-    endTime: {
+    startTime: {
       type: DataTypes.TIME,
       allowNull: false
     }

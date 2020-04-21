@@ -16,16 +16,16 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
+    isConfirmed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
     startTime: {
       type: DataTypes.DATE,
       allowNull: false
     },
     endTime: {
       type: DataTypes.DATE,
-      allowNull: false
-    },
-    isConfirmed: {
-      type: DataTypes.BOOLEAN,
       allowNull: false
     }
   }, {
