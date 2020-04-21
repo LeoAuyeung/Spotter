@@ -74,6 +74,7 @@ async function deleteSchedule(req, res, next) {
             return res.status(401).json({ code: "error", message: "Schedule does not exist." });
         }
         
+        
         let decodedJwt = await decodeJwt(req.headers);
         let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
         if ((Number(currentUser.id) != currentSchedule.userId)){
