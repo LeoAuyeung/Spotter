@@ -28,8 +28,8 @@ async function createSchedule(req, res, next) {
 
         let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
         newSchedule.userId = currentUser.id;
-        await database.schedules.create(newSchedule);
-        res.status(201).json(newSchedule);
+        const newCreatedSchedule =await database.schedules.create(newSchedule);
+        res.status(201).json(newCreatedSchedule);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ code: "error", message: "Error with creating Schedule. Please retry." });
