@@ -9,8 +9,6 @@ var logger = require('morgan');
 const apiRouter = require("./routes/index");
 
 
-var models, { sequelize } = require('./models');
-
 var app = express();
 const port = 3000
 
