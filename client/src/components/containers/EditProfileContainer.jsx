@@ -4,8 +4,13 @@ import { EditProfileView } from "../views";
 
 
 class EditProfileContainer extends Component {
+	onSubmit = async values => {
+	};
+
 	render() {
-		return <EditProfileView />;
+		return <EditProfileView 
+		onSubmit = {this.onSubmit}
+		/>;
 	}
 }
 
