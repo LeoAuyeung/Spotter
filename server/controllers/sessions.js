@@ -31,7 +31,7 @@ async function createSession(req, res, next) {
         res.status(201).json(newSession);
 	} catch (err) {
 		console.log(err);
-		return res.status(401).json({ code: "error", message: "Error with creating Session. Please retry." });
+		return res.status(500).json({ code: "error", message: "Error with creating Session. Please retry." });
 	}
 }
 
@@ -48,10 +48,10 @@ async function editSession(req, res, next) {
         let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
 
         if ((Number(currentUser.id) != currentSession.ownerId)){
-            return res.status(401).json({ code: "error", message: "Session does not exist." });
+            return res.status(401).json({ code: "error", message: "Unauthorized to edit." });
         }
         if (req.body.id && (Number(req.body.id) != currentSession.ownerId)){
-            return res.status(401).json({ code: "error", message: "Unathorized to edit." });
+            return res.status(401).json({ code: "error", message: "Unauthorized to edit." });
         }
         const [ updated ] = await database.sessions.update(req.body, {where: { id: id }});
         if (updated) {
@@ -60,17 +60,32 @@ async function editSession(req, res, next) {
         }
 	} catch (err) {
         console.log(err);
-        return res.status(401).json({ code: "error", message: "Error with updating Session. Please retry." });
+        return res.status(500).json({ code: "error", message: "Error with updating Session. Please retry." });
 	}
 }
 
 
 async function deleteSession(req, res, next) {
 	try {
-		var allSessions = await database.sessions.findAll();
-		res.status(200).json(allSessions);
+        const { id } = req.params;
+        const currentSession = await database.sessions.findOne({  raw: true , where: {id: id} });
+        if (currentSession == null){
+            return res.status(401).json({ code: "error", message: "Session does not exist." });
+        }
+        
+        let decodedJwt = await decodeJwt(req.headers);
+        let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+        if ((Number(currentUser.id) != currentSession.ownerId)){
+            return res.status(401).json({ code: "error", message: "Unauthorized to delete." });
+        }
+        const deleted = await database.sessions.destroy({where: { id: id }});
+        if (deleted) {
+            return res.status(201).json({ code: "success", message: "Session Deleted." });
+        }
+        
 	} catch (err) {
-		console.log(err);
+        console.log(err);
+        return res.status(500).json({ code: "error", message: "Error with deleting Session. Please retry." });
 	}
 }
 module.exports = sessionsController;
