@@ -1,7 +1,11 @@
 
 var database = require('../models');
+var usersModel = require('../models/users');
+
 const accessTokenSecret = 'youraccesstokensecret';
 const jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 //const protectedRouter = withJWTAuthMiddleware(router, accessTokenSecret);
 
@@ -9,6 +13,7 @@ const jwt = require('jsonwebtoken');
 const userController = {
 	getAllUsers: getAllUsers,
 	loginUser: loginUser,
+	registerUser: registerUser,
 };
 
 async function getAllUsers(req, res, next) {
@@ -23,15 +28,42 @@ async function getAllUsers(req, res, next) {
 async function loginUser(req, res, next) {
 	try {
 		const { email, password } = req.body;
-		const user = await database.users.findOne({  raw: true , where: {email: email, password: password} });
+		const user = await database.users.findOne({  raw: true , where: {email: email} });
 		if (user) {
-			const accessToken = jwt.sign({ email: user.email}, accessTokenSecret);
-			res.status(200).json({accessToken});
+			const match = await bcrypt.compare(password, user.password);
+			console.log(match);
+			if (match){
+				const accessToken = jwt.sign({ email: user.email}, accessTokenSecret);
+				res.status(200).json({accessToken});
+			}
+			else {
+				res.status(401).json({ code: "error", message: "Email or password is wrong." });
+			}
 		} else {
-			res.status(401).json({ code: "error", message: "Username or password is wrong." });
+			res.status(401).json({ code: "error", message: "Email or password is wrong." });
 		}
 	} catch (err) {
 		console.log(err);
+		res.status(401).json({ code: "error", message: "Error logging in, please try again." });
+		
+	}
+}
+
+async function registerUser(req, res, next) {
+	try {
+		let newUser = req.body;
+		const userExists = await database.users.findOne({ where: {email: newUser.email} });
+		if (!userExists) {
+			let hashedPassword = await bcrypt.hash(newUser.password, saltRounds)
+			newUser.password = hashedPassword;
+			await database.users.create(newUser);
+			res.status(200).json({code:"Success", message:"User created"});
+		} else {
+			res.status(401).json({ code: "error", message: "Email exists." });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(401).json({ code: "error", message: "Error with creating account. Please retry." });
 	}
 }
 
