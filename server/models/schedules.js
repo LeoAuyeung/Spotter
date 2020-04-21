@@ -10,11 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     endTime: {
       type: DataTypes.TIME,
@@ -23,6 +23,14 @@ module.exports = function(sequelize, DataTypes) {
     startTime: {
       type: DataTypes.TIME,
       allowNull: false
+    },
+    dayId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'days',
+        key: 'id'
+      }
     }
   }, {
     tableName: 'schedules'
