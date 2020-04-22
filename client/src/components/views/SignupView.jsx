@@ -73,6 +73,19 @@ const SignupView = props => {
                     value ={lastName}
                   />
                 </Grid>
+                <Grid>
+                  <TextField
+                  variant = "outlined"
+                  fullWidth
+                  id="date"
+                  label="Birthday"
+                  type="date"
+                  // className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
