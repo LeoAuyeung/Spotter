@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { ProfileView } from "../views";
+import { UserProfileView } from "../views";
 
-class ProfileContainer extends Component {
+class UserProfileContainer extends Component {
     constructor(props){
         super(props)
         this.state={
@@ -20,11 +20,11 @@ class ProfileContainer extends Component {
 
 	render() {
 		return (
-            <ProfileView 
+            <UserProfileView 
                 user = {this.state.user}
             />        
         )
 	}
 }
 
-export default connect(null, null)(ProfileContainer);
+export default connect(null, null)(UserProfileContainer);
