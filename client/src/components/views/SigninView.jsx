@@ -2,13 +2,12 @@ import React from "react";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import {Redirect} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 const SigninView = props => {
@@ -52,7 +51,7 @@ const SigninView = props => {
       }));
       
       const classes = useStyles();
-      const {handleSubmit} = props;
+      const {handleSubmit, handleChange, email, password} = props;
 
 
       return (
@@ -65,7 +64,7 @@ const SigninView = props => {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate>
+              <form className={classes.form} noValidate onSubmit ={handleSubmit}>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -76,6 +75,8 @@ const SigninView = props => {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  value = {email}
+                  onChange = {handleChange}
                 />
                 <TextField
                   variant="outlined"
@@ -87,10 +88,8 @@ const SigninView = props => {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+                  value = {password}
+                  onChange = {handleChange}
                 />
                 <Button
                   type="submit"

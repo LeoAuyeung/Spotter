@@ -17,10 +17,6 @@ const ProfileView = props => {
 
 
 	return (
-<<<<<<< HEAD
-		<div>
-			<h1>hello.</h1>
-=======
 		<div >
             <div>
                 <Card>
@@ -57,7 +53,6 @@ const ProfileView = props => {
                     </CardContent>
                 </Card>
             </div>
->>>>>>> fe97c19fb6efde5f9d7a83ba9d101152a7995969
 		</div>
 	);
 };

@@ -37,7 +37,7 @@ const SignupView = props => {
       }));
       
       const classes = useStyles();
-      const {handleSubmit} = props;
+      const {handleSubmit, handleChange, firstName, lastName, email, password} = props;
 
       return (
         <Container component="main" maxWidth="xs">
@@ -50,14 +50,14 @@ const SignupView = props => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete="fname"
                     name="firstName"
                     variant="outlined"
                     required
                     fullWidth
-                    id="firstName"
                     label="First Name"
                     autoFocus
+                    onChange = {handleChange}
+                    value = {firstName}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -69,6 +69,8 @@ const SignupView = props => {
                     label="Last Name"
                     name="lastName"
                     autoComplete="lname"
+                    onChange = {handleChange}
+                    value ={lastName}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -80,6 +82,8 @@ const SignupView = props => {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    onChange = {handleChange}
+                    value = {email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -92,6 +96,8 @@ const SignupView = props => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    onChange = {handleChange}
+                    value = {password}
                   />
                 </Grid>
               </Grid>
