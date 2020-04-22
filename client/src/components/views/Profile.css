@@ -1,0 +1,9 @@
+.user-profile{
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-link{
+    text-decoration: none;
+    color: black;
+}

@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import {getAllUsers} from '../../actions'
+
 import "./Users.css"
 const UsersView = props => {
-    const {users, filter, handleChange, filterItems} = props
+    const {users, handleChange, filterItems} = props
 	return (
         <div>
              <div>
-                    {/* <button>male</button>
-                    <button>female</button> */}
-                    {/* <input value ={filter} onChange = {handleChange}></input> */}
-                    <select onChange={handleChange}>
-                        <option value= "">No filter</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
+                    <Select onChange={handleChange}>
+                            <MenuItem value="">Select a filter</MenuItem>
+                            <MenuItem value="male">Male</MenuItem>
+                            <MenuItem value="female">Female</MenuItem>
+                        </Select>
+                   
 
             </div>
         {filterItems(users).map(c => {
@@ -24,10 +28,10 @@ const UsersView = props => {
                             <li>{c.name}</li>
                         </ul> */}
                         <h1>
-                        <img src={c.img} className = "profile-img"></img>
+                        <Avatar src={c.img} alt="profile-img"></Avatar>
                         <span>{c.name}</span>
                         <Link to = {"/profile/"+c.name}>
-                            <button className= "btn btn-primary pull-right">View Profile</button>
+                            <Button variant = "contained" className= "btn btn-primary pull-right">View Profile</Button>
                         </Link>
                         </h1>
                     

@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
-import {Link} from 'react-router-dom'
-
 import "./Profile.css"
 
 const avatarStyle= {
@@ -12,7 +10,7 @@ const avatarStyle= {
     height: '100px'
 }
 
-const ProfileView = props => {
+const UserProfileView = props => {
     const {user} = props
 
 
@@ -30,8 +28,8 @@ const ProfileView = props => {
                             </div>
                         </div>
                     
-                        <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit">Edit Profile</Link></Button>
-                        <Button variant = "contained" className= "btn btn-primary pull-right">Edit Calender</Button>
+                        <Button variant = "contained" className= "btn btn-primary pull-right">Message</Button>
+                        <Button variant = "contained" className= "btn btn-primary pull-right">Follow</Button>
 
                     </CardContent>
                 </Card>
@@ -57,4 +55,4 @@ const ProfileView = props => {
 	);
 };
 
-export default ProfileView;
+export default UserProfileView;
