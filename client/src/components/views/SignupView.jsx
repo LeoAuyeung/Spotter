@@ -37,6 +37,7 @@ const SignupView = props => {
       }));
       
       const classes = useStyles();
+      const {handleSubmit} = props;
 
       return (
         <Container component="main" maxWidth="xs">
@@ -45,7 +46,7 @@ const SignupView = props => {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit = {handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
