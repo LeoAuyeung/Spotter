@@ -1,7 +1,7 @@
 import React from "react";
 import { Map, GoogleApiWrapper } from "google-maps-react";
 
-const MAPS_API_KEY = "KEY_HERE";
+import { MAPS_API_KEY } from "../../secrets.js";
 
 const mapStyles = {
 	width: "100%",
