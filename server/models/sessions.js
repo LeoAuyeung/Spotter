@@ -1,14 +1,14 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('schedules', {
+  return sequelize.define('sessions', {
     id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    userId: {
+    ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -16,23 +16,19 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    endTime: {
-      type: DataTypes.TIME,
+    isConfirmed: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     startTime: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false
     },
-    dayId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'days',
-        key: 'id'
-      }
+    endTime: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, {
-    tableName: 'schedules'
+    tableName: 'sessions'
   });
 };
