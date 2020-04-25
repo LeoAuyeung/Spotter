@@ -29,7 +29,8 @@ const ProfileView = props => {
                                 <p>{user.desc}</p>
                             </div>
                         </div>
-                    
+                        <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit/workout">Edit Workout</Link></Button>
+
                         <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit">Edit Profile</Link></Button>
                         <Button variant = "contained" className= "btn btn-primary pull-right">Edit Calender</Button>
 

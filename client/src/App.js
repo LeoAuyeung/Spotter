@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "./App.css";
 
 
-import { HomeContainer, UsersContainer, ProfileContainer, UserProfileContainer, EditProfileContainer, SigninContainer, SignupContainer} from "./components";
+import { HomeContainer, UsersContainer, ProfileContainer, UserProfileContainer, EditProfileContainer, SigninContainer, SignupContainer, EditWorkoutContainer} from "./components";
 
 function App() {
 	return (
@@ -16,6 +16,8 @@ function App() {
 			<Route exact path="/profile" render={() => <ProfileContainer />} />
 			<Route exact path="/profile/:name" render={() => <UserProfileContainer />} />
 			<Route exact path="/edit" render={() => <EditProfileContainer />} />
+			<Route exact path="/edit/workout" render={() => <EditWorkoutContainer />} />
+
 
 		</Router>
 	);
