@@ -30,13 +30,6 @@ const EditProfileView = props => {
 
 							/>
 					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							id="standard-helperText"
-							label="Workouts"
-							helperText="Change your workouts"
-							/>
-					</Grid>
 					 
 					<Grid item style={{ marginTop: 16 }}>
 					  <Button
