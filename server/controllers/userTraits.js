@@ -68,13 +68,6 @@ async function deleteUserTrait(req, res, next) {
             return res.status(401).json({ code: "error", message: "UserTrait does not exist." });
         }
         
-        // Using jwt to check whether the current user is updating own UserTrait
-        const decodedJwt = await decodeJwt(req.headers);
-        const currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } })
-        if (Number(currentUser.id) != currentUserTrait.userId) {
-            return res.status(401).json({ code: "error", message: "Unauthorized to delete." });
-        }
-        
         // Delete the UserTrait
         const deleted = await database.userTraits.destroy({ where: { id: id } });
         if (deleted) {
