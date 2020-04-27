@@ -33,7 +33,7 @@ async function createUserWorkoutVolume(req, res, next) {
     }
     catch (err) {
 		console.log(err);
-		return res.status(500).json({ code: "error", message: "Error with creating UserVolumeWorkout. Please retry." });
+		return res.status(500).json({ code: "error", message: "Error with creating UserWorkoutVolume. Please retry." });
 	}
 }
 
@@ -43,7 +43,7 @@ async function editUserWorkoutVolume(req, res, next) {
         const { id } = req.params; // UserWorkoutVolume unique id
         const currentUserWorkoutVolume = await database.userWorkoutVolumes.findOne({ raw: true , where: { id: id } });
         if (currentUserWorkoutVolume == null) {
-            return res.status(401).json({ code: "error", message: "UserVolumeWorkout does not exist." });
+            return res.status(401).json({ code: "error", message: "UserWorkoutVolume does not exist." });
         }
 
         // Using jwt to check whether the current user is updating own UserWorkoutVolume
@@ -58,8 +58,8 @@ async function editUserWorkoutVolume(req, res, next) {
         const newUserWorkoutVolume = req.body; // Updated (new) UserWorkoutVolume
         const [ updated ] = await database.userWorkoutVolumes.update(newUserWorkoutVolume, { where: { id: id } });
         if (updated) {
-            const updateduserWorkoutVolume = await database.userWorkoutVolumes.findOne({ where: { id: id } });
-            return res.status(200).json({ updateduserWorkoutVolume });
+            const updatedUserWorkoutVolume = await database.userWorkoutVolumes.findOne({ where: { id: id } });
+            return res.status(200).json({ updatedUserWorkoutVolume });
         }
     }
     catch (err) {
@@ -74,7 +74,7 @@ async function deleteUserWorkoutVolume(req, res, next) {
         const { id } = req.params; // UserWorkoutVolume unique id
         const currentUserWorkoutVolume = await database.userWorkoutVolumes.findOne({ raw: true , where: { id: id } });
         if (currentUserWorkoutVolume == null) {
-            return res.status(401).json({ code: "error", message: "UserVolumeWorkout does not exist." });
+            return res.status(401).json({ code: "error", message: "UserWorkoutVolume does not exist." });
         }
         
         // Using jwt to check whether the current user is updating own UserWorkoutVolume
