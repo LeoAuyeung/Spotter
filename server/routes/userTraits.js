@@ -5,8 +5,8 @@ var auth = require('../middleware/auth');
 const userTraitsController = require("../controllers/userTraits");
 
 router.route("/").get(userTraitsController.getAllUserTraits);
-router.route("/").post(auth, userTraitsController.createUserTrait);
-// router.route("/:id").put(auth, userTraitsController.editUserTrait);
+router.route("/:userId").post(auth, userTraitsController.createUserTrait);
+router.route("/:id").put(auth, userTraitsController.editUserTrait);
 router.route("/:id").delete(auth, userTraitsController.deleteUserTrait);
 
 module.exports = router;

@@ -5,7 +5,7 @@ var decodeJwt = require('../middleware/decodeJwt');
 const userTraitsController = {
     getAllUserTraits: getAllUserTraits,
     createUserTrait: createUserTrait,
-    // editUserTrait: editUserTrait,
+    editUserTrait: editUserTrait,
     deleteUserTrait: deleteUserTrait,
 };
 
@@ -21,11 +21,10 @@ async function getAllUserTraits(req, res, next) {
 
 async function createUserTrait(req, res, next) {
 	try {
-        // Using currentUser unique id to create a new UserTrait for the user
-        let newUserTrait = req.body;
-        const decodedJwt = await decodeJwt(req.headers);
-        const currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
-        newUserTrait.userId = currentUser.id;
+        // Using id of user whose trait is being edited
+        const { userId } = req.params; // UserTrait unique id
+        let newUserTrait = req.body; // New UserTrait
+        newUserTrait.userId = userId;
 
         // Create the UserTrait
         await database.userTraits.create(newUserTrait);
@@ -37,7 +36,6 @@ async function createUserTrait(req, res, next) {
 	}
 }
 
-// Don't think we need a way to update a userTrait connection, as we should only be adding or deleting
 async function editUserTrait(req, res, next) {
 	try {
         // Using UserTrait unique id to check whether it exists and is available to update
@@ -45,14 +43,6 @@ async function editUserTrait(req, res, next) {
         const currentUserTrait = await database.userTraits.findOne({ raw: true , where: { id: id } });
         if (currentUserTrait == null) {
             return res.status(401).json({ code: "error", message: "UserTrait does not exist." });
-        }
-
-        // Using jwt to check whether the current user is updating own UserTrait
-        const decodedJwt = await decodeJwt(req.headers);
-        const currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
-        if ((Number(currentUser.id) != currentUserTrait.userId) 
-        || (req.body.id && (Number(req.body.id) != currentUserTrait.userId))) {
-            return res.status(401).json({ code: "error", message: "Unauthorized to edit." });
         }
 
         // Update the UserTrait
