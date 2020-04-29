@@ -12,6 +12,7 @@ import {
 	SigninContainer,
 	SignupContainer,
 	EditWorkoutContainer,
+	NavbarContaine
 } from "./components";
 
 import { me } from "./actions";
@@ -24,6 +25,7 @@ class App extends Component {
 	render() {
 		return (
 			<Router>
+				<NavbarContainer></NavbarContainer>
 				<Route exact path="/" render={() => <HomeContainer />} />
 				<Route exact path="/signin" render={() => <SigninContainer />} />
 				<Route exact path="/signup" render={() => <SignupContainer />} />
@@ -43,6 +45,7 @@ class App extends Component {
 			</Router>
 		);
 	}
+			
 }
 
 const mapDispatchToProps = (dispatch) => {
