@@ -10,7 +10,7 @@ const apiRouter = require("./routes/index");
 
 
 var app = express();
-const port = 3000
+const port = 5000
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,6 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
+app.get("/", (req, res, next) => res.send("Spotter Backend"))
 
 app.use("/api", apiRouter);
 
