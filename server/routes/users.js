@@ -8,5 +8,6 @@ router.route("/").get(auth, userController.getAllUsers);
 router.route("/auth/decodeJwt").get(userController.decodeJwtToken);
 router.route("/auth/login").post(userController.loginUser);
 router.route("/auth/register").post(userController.registerUser);
+router.route("/me").get(userController.me);
 
 module.exports = router;

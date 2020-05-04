@@ -10,11 +10,11 @@ const saltRounds = 10;
 //const protectedRouter = withJWTAuthMiddleware(router, accessTokenSecret);
 
 const userController = {
-	getAllUsers: getAllUsers,
-	loginUser: loginUser,
-	registerUser: registerUser,
+	getAllUsers,
+	loginUser,
+	registerUser,
 	decodeJwtToken,
-	decodeJwtToken,
+	me,
 };
 
 async function getAllUsers(req, res, next) {
@@ -89,6 +89,22 @@ async function registerUser(req, res, next) {
 			code: "error",
 			message: "Error with creating account. Please retry.",
 		});
+	}
+}
+
+async function me(req, res, next) {
+	try {
+		const authHeader = req.headers.authorization;
+		if (authHeader) {
+			const token = authHeader;
+			jwt.verify(token, "youraccesstokensecret", (err, email) => {
+				if (!err) {
+					return res.status(200).send({ email: email.email });
+				}
+			});
+		}
+	} catch (err) {
+		console.log(err);
 	}
 }
 
