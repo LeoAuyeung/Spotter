@@ -12,7 +12,7 @@ import {
 	SigninContainer,
 	SignupContainer,
 	EditWorkoutContainer,
-	NavbarContaine
+	NavbarContainer,
 } from "./components";
 
 import { me } from "./actions";
@@ -45,7 +45,6 @@ class App extends Component {
 			</Router>
 		);
 	}
-			
 }
 
 const mapDispatchToProps = (dispatch) => {
