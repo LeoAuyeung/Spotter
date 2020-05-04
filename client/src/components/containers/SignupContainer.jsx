@@ -11,7 +11,6 @@ class SignupContainer extends Component {
 		this.state = {
 			firstName: "",
 			lastName: "",
-			gender: "M",
 			email: "",
 			password: "",
 			birthday: null,
