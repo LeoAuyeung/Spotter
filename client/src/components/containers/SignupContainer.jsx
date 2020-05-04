@@ -1,53 +1,66 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 import { SignupView } from "../views";
+import { addUserThunk } from "../../actions";
 
 class SignupContainer extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
-		this.state={
+		this.state = {
 			firstName: "",
 			lastName: "",
+			gender: "M",
 			email: "",
-			password:""
-		}
+			password: "",
+			birthday: null,
+			// hard-coded
+			gender: "M",
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
-	 // EVENT HANDLERS
-	 handleChange = async(e) => {
-		 e.preventDefault();
-		this.setState({ [e.target.name]: e.target.value });
-	  };
-
-	  handleSubmit = async(e) => {
-		// this is only if the user deletes the initial properties and leaves fields blank
-		// Its okay if save changes is clicked and nothing actually changed
+	// EVENT HANDLERS
+	handleChange = (e) => {
 		e.preventDefault();
-		
-		  // send changed user data
-		  let user = {
-			// NOT changed but need it for Link
-			firstName: this.state.firstName,
-			lastName: this.state.lastName,
-			email: this.state.email,
-			password: this.state.password
-		  };
-	
-		  // send to edit User to update User AND the database
-		  console.log(user)
-	  };
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	handleSubmit = (event) => {
+		const {
+			email,
+			password,
+			firstName,
+			lastName,
+			birthday,
+			gender,
+		} = this.state;
+		event.preventDefault();
+		this.props.signUp(email, password, firstName, lastName, birthday, gender);
+		this.props.history.push("/users");
+	};
+
 	render() {
-		return <SignupView 
-		handleSubmit = {this.handleSubmit}
-		handleChange = {this.handleChange}
-		firstName = {this.state.firstName}
-		lastName = {this.state.lastName}
-		email = {this.state.email}
-		password = {this.state.password}
-		/>;
+		return (
+			<SignupView
+				handleSubmit={this.handleSubmit}
+				handleChange={this.handleChange}
+				firstName={this.state.firstName}
+				lastName={this.state.lastName}
+				email={this.state.email}
+				password={this.state.password}
+				birthday={this.state.birthday}
+			/>
+		);
 	}
 }
 
-export default connect(null, null)(SignupContainer);
+const mapDispatchToProps = (dispatch) => ({
+	signUp: (email, password, firstName, lastName, birthday, gender) =>
+		dispatch(
+			addUserThunk(email, password, firstName, lastName, birthday, gender)
+		),
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(SignupContainer));
