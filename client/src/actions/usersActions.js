@@ -62,7 +62,6 @@ export const addUserThunk = (
 			`${BASE_URL}/api/users/auth/register`,
 			body
 		);
-		console.log(newUser);
 		dispatch(addUser(newUser.data));
 	} catch (err) {
 		console.log(err);
