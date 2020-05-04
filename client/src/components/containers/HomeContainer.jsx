@@ -5,8 +5,16 @@ import { HomeView } from "../views";
 
 class HomeContainer extends Component {
 	render() {
-		return <HomeView />;
+		return (
+			<HomeView isLoggedIn={this.props.isLoggedIn} logout={this.props.logout} />
+		);
 	}
 }
 
-export default connect(null, null)(HomeContainer);
+const mapStateToProps = (state) => {
+	return {
+		isLoggedIn: !!state.user.loggedInUser.email,
+	};
+};
+
+export default connect(mapStateToProps, null)(HomeContainer);
