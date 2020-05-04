@@ -36,13 +36,15 @@ class UsersContainer extends Component {
 	};
 
 	render() {
-		return (
+		return this.props.isLoggedIn ? (
 			<UsersView
 				users={this.props.users}
 				filter={this.state.filter}
 				handleChange={this.handleChange}
 				filterItems={this.filterItems}
 			/>
+		) : (
+			<h1>Error: not signed in. Please sign in.</h1>
 		);
 	}
 }

@@ -24,7 +24,7 @@ class SigninContainer extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		this.props.signIn(this.state.email, this.state.password);
-		this.props.history.push("/users");
+		this.props.history.goBack();
 	};
 
 	render() {
