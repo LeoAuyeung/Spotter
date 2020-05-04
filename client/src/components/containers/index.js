@@ -6,3 +6,4 @@ export {default as ProfileContainer} from "./ProfileContainer.jsx";
 export {default as UserProfileContainer} from "./UserProfileContainer.jsx";
 export {default as EditProfileContainer} from "./EditProfileContainer.jsx";
 export {default as EditWorkoutContainer} from "./EditWorkoutContainer.jsx";
+export {default as NavbarContainer} from "./NavbarContainer.jsx";
