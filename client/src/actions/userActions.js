@@ -11,13 +11,6 @@ const getUser = (user) => {
 	};
 };
 
-const addUser = (user) => {
-	return {
-		type: ADD_USER,
-		payload: user,
-	};
-};
-
 const login = (user) => {
 	return {
 		type: LOGIN,
@@ -58,11 +51,18 @@ export const addUserThunk = (
 			dob,
 			gender,
 		};
-		const newUser = await axios.post(
-			`${BASE_URL}/api/users/auth/register`,
-			body
-		);
-		dispatch(addUser(newUser.data));
+		await axios.post(`${BASE_URL}/api/users/auth/register`, body);
+
+		// logs user in after signup
+		const user = {
+			email: body.email,
+			password: body.password,
+		};
+		const response = await axios.post(`${BASE_URL}/api/users/auth/login`, user);
+		const token = response.data.accessToken;
+		localStorage.setItem("token", token);
+
+		dispatch(login(body.email));
 	} catch (err) {
 		console.log(err);
 	}
@@ -77,6 +77,7 @@ export const loginThunk = (email, password) => async (dispatch) => {
 		const response = await axios.post(`${BASE_URL}/api/users/auth/login`, body);
 		const token = response.data.accessToken;
 		localStorage.setItem("token", token);
+
 		dispatch(login(body.email));
 	} catch (err) {
 		console.log(err);
@@ -94,10 +95,12 @@ export const logoutThunk = () => async (dispatch) => {
 
 export const me = () => async (dispatch) => {
 	try {
-		const res = await axios.get(`${BASE_URL}/api/auth/me`, {
-			withCredentials: true,
-		});
-		dispatch(login(res.data || {}));
+		const headers = {
+			authorization: localStorage.token,
+		};
+		const res = await axios.get(`${BASE_URL}/api/users/me`, { headers });
+		const email = res.data.email;
+		dispatch(login(email || {}));
 	} catch (err) {
 		console.error(err);
 	}
