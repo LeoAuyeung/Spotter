@@ -19,8 +19,8 @@ const userController = {
 
 async function getAllUsers(req, res, next) {
 	try {
-		const decoded = await decodeJwt(req.headers);
-		console.log(decoded.email);
+		//const decoded = await decodeJwt(req.headers);
+		//console.log(decoded.email);
 		var allUsers = await database.users.findAll();
 		res.status(200).json(allUsers);
 	} catch (err) {
