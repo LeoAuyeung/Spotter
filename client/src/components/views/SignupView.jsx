@@ -7,6 +7,11 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -45,6 +50,7 @@ const SignupView = (props) => {
 		email,
 		password,
 		birthday,
+		gender
 	} = props;
 
 	return (
@@ -81,7 +87,8 @@ const SignupView = (props) => {
 								value={lastName}
 							/>
 						</Grid>
-						<Grid>
+						<Grid container spacing ={2}>
+						<Grid Grid item xs={12} sm={6}>
 							<TextField
 								variant="outlined"
 								fullWidth
@@ -97,6 +104,14 @@ const SignupView = (props) => {
 								}}
 							/>
 						</Grid>
+						<Grid Grid item xs={12} sm={6}>
+							
+								<InputLabel id="demo-multiple-name-label">Gender</InputLabel>
+								<Select name = "gender" value = {gender} input ={<Input/>}onChange = {handleChange}>
+									<MenuItem value = 'F'>Female</MenuItem>
+									<MenuItem value = 'M'>Male</MenuItem>
+								</Select>
+						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								variant="outlined"
@@ -110,6 +125,8 @@ const SignupView = (props) => {
 								value={email}
 							/>
 						</Grid>
+						</Grid>
+						
 						<Grid item xs={12}>
 							<TextField
 								variant="outlined"
