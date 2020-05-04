@@ -1,16 +1,17 @@
-import { GET_USER, LOGIN, LOGOUT } from "../actions/actionTypes";
+import { GET_USERS, LOGIN, LOGOUT } from "../actions/actionTypes";
 
 const initialState = {
 	loggedInUser: {},
+	possibleMatches: {},
 	currentUser: {},
 };
 
 export default (state = initialState, action) => {
 	switch (action.type) {
-		case GET_USER:
+		case GET_USERS:
 			return {
 				...state,
-				currUser: action.payload,
+				possibleMatches: action.payload,
 			};
 		case LOGIN:
 			return {

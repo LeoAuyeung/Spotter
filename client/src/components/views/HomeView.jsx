@@ -12,6 +12,7 @@ const HomeView = (props) => {
 			<LinkButton onClick={props.logout} to="/">
 				Sign Out
 			</LinkButton>
+			<Link to="/users">Users</Link>
 		</div>
 	);
 };

@@ -1,13 +1,13 @@
-import { GET_USER, LOGIN, LOGOUT } from "./actionTypes";
+import { GET_USERS, LOGIN, LOGOUT } from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 // Action creator
-const getUser = (user) => {
+const getUsers = (users) => {
 	return {
-		type: GET_USER,
-		payload: user,
+		type: GET_USERS,
+		payload: users,
 	};
 };
 
@@ -25,10 +25,14 @@ const logout = () => {
 };
 
 // Thunks
-export const getUserThunk = (userId) => async (dispatch) => {
+export const getUsersThunk = () => async (dispatch) => {
 	try {
-		const res = await axios.get(`${BASE_URL}/api/users/${userId}`);
-		dispatch(getUser(res.data));
+		const headers = {
+			authorization: localStorage.token,
+		};
+		const res = await axios.get(`${BASE_URL}/api/users`, { headers });
+
+		dispatch(getUsers(res.data));
 	} catch (err) {
 		console.log(err);
 	}
@@ -62,7 +66,11 @@ export const addUserThunk = (
 		const token = response.data.accessToken;
 		localStorage.setItem("token", token);
 
-		dispatch(login(body.email));
+		const loggedInUser = {
+			email: body.email,
+		};
+
+		dispatch(login(loggedInUser));
 	} catch (err) {
 		console.log(err);
 	}
@@ -78,7 +86,11 @@ export const loginThunk = (email, password) => async (dispatch) => {
 		const token = response.data.accessToken;
 		localStorage.setItem("token", token);
 
-		dispatch(login(body.email));
+		const loggedInUser = {
+			email: body.email,
+		};
+
+		dispatch(login(loggedInUser));
 	} catch (err) {
 		console.log(err);
 	}
@@ -100,8 +112,12 @@ export const me = () => async (dispatch) => {
 			authorization: localStorage.token,
 		};
 		const res = await axios.get(`${BASE_URL}/api/users/me`, { headers });
-		const email = res.data.email;
-		dispatch(login(email || {}));
+
+		const loggedInUser = {
+			email: res.data.email,
+		};
+
+		dispatch(login(loggedInUser || {}));
 	} catch (err) {
 		console.error(err);
 	}

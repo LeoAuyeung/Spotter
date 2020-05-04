@@ -17,27 +17,26 @@ const UsersView = (props) => {
 					<MenuItem value="female">Female</MenuItem>
 				</Select>
 			</div>
-			{filterItems(users).map((c) => {
-				return (
-					<div className="users-container">
-						{/* <ul>
-                            <li>{c.name}</li>
-                        </ul> */}
-						<h1>
-							<Avatar src={c.img} alt="profile-img"></Avatar>
-							<span>{c.name}</span>
-							<Link to={"/profile/" + c.name}>
-								<Button
-									variant="contained"
-									className="btn btn-primary pull-right"
-								>
-									View Profile
-								</Button>
-							</Link>
-						</h1>
-					</div>
-				);
-			})}
+			{users
+				? filterItems(users).map((c) => {
+						return (
+							<div className="users-container">
+								<h1>
+									<Avatar src={c.profileLink} alt="profile-img"></Avatar>
+									<span>{c.first}</span>
+									<Link to={`/profile/${c.first}`}>
+										<Button
+											variant="contained"
+											className="btn btn-primary pull-right"
+										>
+											View Profile
+										</Button>
+									</Link>
+								</h1>
+							</div>
+						);
+				  })
+				: ""}
 		</div>
 	);
 };
