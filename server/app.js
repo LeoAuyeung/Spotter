@@ -11,8 +11,6 @@ const bodyParser = require("body-parser");
 
 const apiRouter = require("./routes/index");
 
-const PORT = process.env.PORT;
-
 var app = express();
 app.use(logger("dev"));
 app.use(express.json());
@@ -23,9 +21,5 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res, next) => res.send("Spotter Backend"));
 app.use("/api", apiRouter);
-
-app.listen(PORT, () =>
-	console.log(`Example app listening at http://localhost:${PORT}`)
-);
 
 module.exports = app;

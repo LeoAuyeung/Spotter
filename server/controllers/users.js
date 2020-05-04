@@ -19,8 +19,8 @@ const userController = {
 
 async function getAllUsers(req, res, next) {
 	try {
-		//const decoded = await decodeJwt(req.headers);
-		//console.log(decoded.email);
+		const decoded = await decodeJwt(req.headers);
+		console.log(decoded.email);
 		var allUsers = await database.users.findAll();
 		res.status(200).json(allUsers);
 	} catch (err) {
@@ -41,12 +41,10 @@ async function decodeJwtToken(req, res, next) {
 async function loginUser(req, res, next) {
 	try {
 		const { email, password } = req.body;
-		console.log(database);
 		const user = await database.users.findOne({
 			raw: true,
 			where: { email: email },
 		});
-		console.log(user);
 		if (user) {
 			const match = await bcrypt.compare(password, user.password);
 			console.log(match);
