@@ -71,6 +71,7 @@ export const addUserThunk = (
 		};
 
 		dispatch(login(loggedInUser));
+		// console.log(body)
 	} catch (err) {
 		console.log(err);
 	}

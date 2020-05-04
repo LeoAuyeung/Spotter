@@ -15,7 +15,7 @@ class SignupContainer extends Component {
 			password: "",
 			birthday: null,
 			// hard-coded
-			gender: "M",
+			gender: "",
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +23,7 @@ class SignupContainer extends Component {
 	// EVENT HANDLERS
 	handleChange = (e) => {
 		e.preventDefault();
-		this.setState({ [e.target.name]: e.target.value });
+		this.setState({ [e.target.name]: e.target.value});
 	};
 
 	handleSubmit = (event) => {
@@ -50,6 +50,7 @@ class SignupContainer extends Component {
 				email={this.state.email}
 				password={this.state.password}
 				birthday={this.state.birthday}
+				gender = {this.state.gender}
 			/>
 		);
 	}
