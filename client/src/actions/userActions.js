@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER, LOGIN, LOGOUT } from "./actionTypes";
+import { GET_USER, LOGIN, LOGOUT } from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -86,7 +86,8 @@ export const loginThunk = (email, password) => async (dispatch) => {
 
 export const logoutThunk = () => async (dispatch) => {
 	try {
-		await axios.delete(`${BASE_URL}/api/auth/logout`);
+		localStorage.removeItem("token");
+
 		dispatch(logout());
 	} catch (err) {
 		console.log(err);

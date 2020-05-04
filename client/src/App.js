@@ -24,9 +24,9 @@ class App extends Component {
 	render() {
 		return (
 			<Router>
-				<Route exact path="/" render={() => <SigninContainer />} />
+				<Route exact path="/" render={() => <HomeContainer />} />
+				<Route exact path="/signin" render={() => <SigninContainer />} />
 				<Route exact path="/signup" render={() => <SignupContainer />} />
-				{/* <Route exact path="/home" render={() => <HomeContainer />} /> */}
 				<Route exact path="/users" render={() => <UsersContainer />} />
 				<Route exact path="/profile" render={() => <ProfileContainer />} />
 				<Route
