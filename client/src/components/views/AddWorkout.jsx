@@ -8,11 +8,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
-  const workouts =  ["deadlifts", "bench press", "squat"]
-  const measurements =  ["lbs", "bodyweight"]
+  const [workouts] =  React.useState(["deadlifts", "bench press", "squat"])
+  const [measurements] =  React.useState(["lbs", "bodyweight"])
+  const [workout, setWorkout] = React.useState("")
+  const [measurement, setMeasurement] = React.useState("")
+  const [amount, setAmount] = React.useState(0)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -20,6 +25,9 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+ 
+
   const handleSubmit = async(e) => {
 		// this is only if the user deletes the initial properties and leaves fields blank
 		// Its okay if save changes is clicked and nothing actually changed
@@ -28,9 +36,9 @@ export default function FormDialog() {
 		  // send changed user data
 		  let changedWorkout = {
 			// NOT changed but need it for Link
-			workout: this.state.workout,
-			amount: this.state.amount,
-			measurement: this.state.measurement
+			workout: workout,
+			amount: amount,
+			measurement: measurement
 		  };
 	
 		  // send to edit User to update User AND the database
@@ -44,11 +52,12 @@ export default function FormDialog() {
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add a new workout</DialogTitle>
+        <form onSubmit = {handleSubmit}>
         <DialogContent>
           <DialogContentText>
             Select your workout
           </DialogContentText>
-         <Select>
+         <Select name="workout" value ={workout} input ={<Input/>} onChange = {e=>setWorkout(e.target.value)}>
          {workouts.map((workout, index)=>  
             <MenuItem key={index} value={workout}>{workout}</MenuItem>)}
          </Select>
@@ -57,25 +66,27 @@ export default function FormDialog() {
           <DialogContentText>
             Enter the weight
           </DialogContentText>
-         <TextField></TextField>
+         <TextField name="amount" value={amount} onChange={e=>setAmount(e.target.value)}></TextField>
         </DialogContent>
         <DialogContent>
           <DialogContentText>
             Select your unit of measurement
           </DialogContentText>
-         <Select>
+          <Select name="measurement" value ={measurement} input ={<Input/>} onChange = {e=>setMeasurement(e.target.value)}>
          {measurements.map((measurement, index)=>  
-            <MenuItem key={index} value={measurement}>{measurement}</MenuItem>)} 
+            <MenuItem key={index} value={measurement}>{measurement}</MenuItem>)}
          </Select>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" type="submit">
             Add
           </Button>
         </DialogActions>
+        </form>
+        
       </Dialog>
     </div>
   );
