@@ -11,19 +11,18 @@ import {
 
 
 const EditScheduleView = props => {
-    //  const {rows, columns, getRowId, commitChanges} = props
+     const {rows, columns, getRowId, commitChanges} = props
     
 	return (
-       <div>hello</div> 
-    //     <Paper>
-    //     <Grid rows={rows} columns={columns} getRowId={getRowId}>
-    //       <EditingState onCommitChanges={commitChanges} />
-    //       <Table />
-    //       <TableHeaderRow />
-    //       <TableEditRow />
-    //       <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
-    //     </Grid>
-    //   </Paper>
+        <Paper>
+        <Grid rows={rows} columns={columns} >
+          <EditingState onCommitChanges={commitChanges} />
+          <Table />
+          <TableHeaderRow />
+          <TableEditRow />
+          <TableEditColumn showAddCommand showEditCommand showDeleteCommand />
+        </Grid>
+      </Paper>
 	  );
 };
 
