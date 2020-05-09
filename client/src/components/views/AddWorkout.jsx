@@ -11,7 +11,8 @@ import Select from '@material-ui/core/Select';
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
-
+  const workouts =  ["deadlifts", "bench press", "squat"]
+  const measurements =  ["lbs", "bodyweight"]
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -19,7 +20,23 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleSubmit = async(e) => {
+		// this is only if the user deletes the initial properties and leaves fields blank
+		// Its okay if save changes is clicked and nothing actually changed
+		e.preventDefault();
+		
+		  // send changed user data
+		  let changedWorkout = {
+			// NOT changed but need it for Link
+			workout: this.state.workout,
+			amount: this.state.amount,
+			measurement: this.state.measurement
+		  };
+	
+		  // send to edit User to update User AND the database
+		  console.log(changedWorkout)
+	  };
+    
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -32,7 +49,8 @@ export default function FormDialog() {
             Select your workout
           </DialogContentText>
          <Select>
-             <MenuItem></MenuItem>
+         {workouts.map((workout, index)=>  
+            <MenuItem key={index} value={workout}>{workout}</MenuItem>)}
          </Select>
         </DialogContent>
         <DialogContent>
@@ -46,7 +64,8 @@ export default function FormDialog() {
             Select your unit of measurement
           </DialogContentText>
          <Select>
-             <MenuItem></MenuItem>
+         {measurements.map((measurement, index)=>  
+            <MenuItem key={index} value={measurement}>{measurement}</MenuItem>)} 
          </Select>
         </DialogContent>
         <DialogActions>
