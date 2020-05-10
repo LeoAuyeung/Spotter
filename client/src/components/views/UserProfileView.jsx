@@ -28,8 +28,8 @@ const UserProfileView = props => {
                             </div>
                         </div>
                     
-                        <Button variant = "contained" className= "btn btn-primary pull-right">Message</Button>
-                        <Button variant = "contained" className= "btn btn-primary pull-right">Follow</Button>
+                        <Button variant = "contained" className= "btn btn-primary pull-right">Connect</Button>
+                        <Button variant = "contained" className= "btn btn-primary pull-right">Favorite</Button>
 
                     </CardContent>
                 </Card>

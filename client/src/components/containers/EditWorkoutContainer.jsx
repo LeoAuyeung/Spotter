@@ -7,7 +7,12 @@ class EditWorkoutContainer extends Component {
 	constructor(props){
 		super(props);
 		this.state={
-            setOpen: false
+			setOpen: false,
+			workouts: ["deadlifts", "bench press", "squat"],
+			measurements: ["lbs", "bodyweight"],
+			amount: 0,
+			workout: "",
+			measurement: ""
 		}
 		this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,13 +31,15 @@ class EditWorkoutContainer extends Component {
 		e.preventDefault();
 		
 		  // send changed user data
-		  let changedUser = {
+		  let changedWorkout = {
 			// NOT changed but need it for Link
-			description: this.state.description,
+			workout: this.state.workout,
+			amount: this.state.amount,
+			measurement: this.state.measurement
 		  };
 	
 		  // send to edit User to update User AND the database
-		  console.log(changedUser)
+		  console.log(changedWorkout)
 	  };
       handleClickOpen = () => {
         this.setState({setOpen: true})
@@ -44,11 +51,16 @@ class EditWorkoutContainer extends Component {
 
 	render() {
 		return <EditWorkoutView 
-		// handleChange = {this.handleChange}
-		// handleSubmit = {this.handleSubmit}
-        handleClickOpen = {this.handleClickOpen}
-        handleClose = {this.handleClose}
-        setOpen = {this.state.setOpen}
+        // handleClickOpen = {this.handleClickOpen}
+        // handleClose = {this.handleClose}
+		setOpen = {this.state.setOpen}
+		workouts = {this.state.workouts}
+		measurements = {this.state.measurements}
+		handleSubmit = {this.handleSubmit}
+		handleChange = {this.handleChange}
+		amount = {this.state.amount}
+		workout = {this.state.workout}
+		measurement = {this.state.measurement}
 		/>;
 		
 	}

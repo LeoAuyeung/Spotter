@@ -5,6 +5,7 @@ import React from "react";
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 
 import {
   Paper,
@@ -16,8 +17,7 @@ import {
 
  import AddWorkout from './AddWorkout.jsx'
 const EditWorkoutView = props => {
-    const {handleClickOpen, handleClose} = props
-    // const {handleSubmit, handleChange, description} = props
+    const {workout, workouts, measurements, handleSubmit, handleChange, amount, measurement } = props
     
 	return (
         
@@ -26,22 +26,25 @@ const EditWorkoutView = props => {
         
         <AddWorkout/>
       </div> 
-			  <form >
+			  <form onSubmit = {handleSubmit}>
 				<Paper style={{ padding: 16 }}>
 				  <Grid container alignItems="flex-start" spacing={2}>
                       <div>
                       Select the workout you want to change
                         <br></br>
-                        <Select>
-                            <MenuItem></MenuItem>
+                        <Select name="workout" value ={workout} input ={<Input/>}onChange = {handleChange}>
+                          {workouts.map((workout, index)=>  
+                          <MenuItem key={index} value={workout}>{workout}</MenuItem>)}
+                           
                         </Select>
                         <br></br>
-                        <TextField label="Enter new amount"></TextField>
+                        <TextField onChange = {handleChange} name = "amount" value = {amount} label="Enter new amount"></TextField>
                         <br></br>
                         Select the unit of measurement
                         <br></br>
-                        <Select>
-                            <MenuItem></MenuItem>
+                        <Select name="measurement" value ={measurement} input ={<Input/>}onChange = {handleChange}>
+                          {measurements.map((measurement, index)=>  
+                          <MenuItem key={index} value={measurement}>{measurement}</MenuItem>)}                        
                         </Select>
                       </div>
 									 
