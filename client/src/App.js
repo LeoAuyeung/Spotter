@@ -13,7 +13,8 @@ import {
 	SignupContainer,
 	EditWorkoutContainer,
 	NavbarContainer,
-	EditScheduleContainer
+	EditScheduleContainer,
+	ErrorContainer
 } from "./components";
 
 import { me } from "./actions";
@@ -48,6 +49,7 @@ class App extends Component {
 					path="/edit/schedule"
 					render={() => <EditScheduleContainer />}
 				/>
+				<Route exact path="/error" render={() => <ErrorContainer />} />
 			</Router>
 		);
 	}
