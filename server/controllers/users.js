@@ -36,11 +36,17 @@ async function getFilteredUsers(req, res, next) {
 		const decoded = await decodeJwt(req.headers);
 		let allUserFilters = req.body;
 		// Supporting multiple filter by: userGyms, userTraits
+		// Call function with JSON body as such:
+		/*
+		{
+			"userGymIdList": [1],
+			"userTraitIdList": [2, 3]
+		}
+		*/
 
 		// If there are gym ids, search userGyms by traitId
 		let userGymsFilter = [];
 		if (allUserFilters.userGymIdList.length != 0) {
-			console.log("A")
 			userGymsFilter = await database.userGyms.findAll({
 				raw: true,
 				where: {
