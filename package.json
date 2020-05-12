@@ -1,28 +1,27 @@
 {
-  "name": "Spotter",
-  "version": "1.0.0",
-  "description": "Spotter - CSCI-39548 Practical Web Dev Spring 2020",
-  "main": "index.js",
-  "dependencies": {
-    "react-final-form": "^6.4.0",
-    "final-form": "^4.19.1",
-    "final-form-material-ui": "^0.3.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd client && npm install",
-    "start": "cd client && npm start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LeoAuyeung/Spotter.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LeoAuyeung/Spotter/issues"
-  },
-  "homepage": "https://github.com/LeoAuyeung/Spotter#readme"
+	"name": "spotter",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"start": "cross-env DEBUG=spotter:* nodemon ./bin/www",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+	},
+	"dependencies": {
+		"axios": "^0.19.2",
+		"bcrypt": "^4.0.1",
+		"body-parser": "^1.19.0",
+		"cookie-parser": "~1.4.4",
+		"cross-env": "^7.0.2",
+		"debug": "~2.6.9",
+		"dotenv": "^8.2.0",
+		"express": "~4.16.1",
+		"http-errors": "~1.6.3",
+		"jsonwebtoken": "^8.5.1",
+		"jwt-decode": "^2.2.0",
+		"morgan": "~1.9.1",
+		"nodemon": "^2.0.2",
+		"pg": "^8.0.0",
+		"pg-hstore": "^2.3.3",
+		"sequelize": "^5.21.6"
+	}
 }
