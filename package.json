@@ -1,0 +1,28 @@
+{
+  "name": "Spotter",
+  "version": "1.0.0",
+  "description": "Spotter - CSCI-39548 Practical Web Dev Spring 2020",
+  "main": "index.js",
+  "dependencies": {
+    "react-final-form": "^6.4.0",
+    "final-form": "^4.19.1",
+    "final-form-material-ui": "^0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd server && npm install",
+    "start": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoAuyeung/Spotter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeoAuyeung/Spotter/issues"
+  },
+  "homepage": "https://github.com/LeoAuyeung/Spotter#readme"
+}
