@@ -44,7 +44,13 @@ async function createConnection(req, res, next) {
 		const { userId } = req.params; // Id of user2, user that you are connecting to
 		
 		const allConnections = await database.connections.findAll();
-		const latestConnection = allConnections[allConnections.length-1];
+		let latestConnection;
+		if (allConnections.length > 0) {
+			latestConnection = allConnections[allConnections.length-1];
+		}
+		else {
+			latestConnection = { "int": -1 };
+		}
 		const latestInt = parseInt(latestConnection.int);
 		let newConnection = { "int": String(latestInt + 1) };
 		
