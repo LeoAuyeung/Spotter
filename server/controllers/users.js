@@ -1,6 +1,7 @@
 var database = require("../models");
 var usersModel = require("../models/users");
 var decodeJwt = require("../middleware/decodeJwt");
+const { Op } = require("sequelize");
 
 const accessTokenSecret = "youraccesstokensecret";
 const jwt = require("jsonwebtoken");
@@ -11,6 +12,7 @@ const saltRounds = 10;
 
 const userController = {
 	getAllUsers,
+	getFilteredUsers,
 	loginUser,
 	registerUser,
 	decodeJwtToken,
@@ -24,6 +26,60 @@ async function getAllUsers(req, res, next) {
 		var allUsers = await database.users.findAll();
 		res.status(200).json(allUsers);
 	} catch (err) {
+		console.log(err);
+	}
+}
+
+// getFilteredUsers will filter depending on input, sent in req.body
+async function getFilteredUsers(req, res, next) {
+	try {
+		const decoded = await decodeJwt(req.headers);
+		let allUserFilters = req.body;
+		// Supporting multiple filter by: userGyms, userTraits
+
+		// If there are gym ids, search userGyms by traitId
+		let userGymsFilter = [];
+		if (allUserFilters.userGymIdList.length != 0) {
+			console.log("A")
+			userGymsFilter = await database.userGyms.findAll({
+				raw: true,
+				where: {
+					gymId: {
+						[Op.or]: allUserFilters.userGymIdList
+					}
+				}
+			});
+		}
+		// If there are usertraits, search userTraits by traitId
+		let userTraitsFilter = [];
+		if (allUserFilters.userTraitIdList.length != 0) {
+			userTraitsFilter = await database.userTraits.findAll({
+				raw: true,
+				where: {
+					traitId: {
+						[Op.or]: allUserFilters.userTraitIdList
+					}
+				}
+			});
+		}
+
+		// Then, add all these userIds into a master list of userIds to search by
+		const allUserIds = userGymsFilter.concat(userTraitsFilter).map(item => item.userId);
+
+		// Then, search users by userIds (automatically removes duplicates this way)
+		// May return empty list if no users match all requirements
+		var allFilteredUsers = await database.users.findAll({
+			raw: true,
+			where: {
+				id: {
+					[Op.or]: allUserIds
+				}
+			}
+		});
+		
+		res.status(200).json(allFilteredUsers);
+	}
+	catch (err) {
 		console.log(err);
 	}
 }
