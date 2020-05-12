@@ -17,6 +17,7 @@ const userController = {
 	registerUser,
 	decodeJwtToken,
 	me,
+	profile
 };
 
 async function getAllUsers(req, res, next) {
@@ -156,11 +157,13 @@ async function registerUser(req, res, next) {
 
 async function me(req, res, next) {
 	try {
+		console.log("-------------------------------------------------")
 		const authHeader = req.headers.authorization;
 		if (authHeader) {
 			const token = authHeader;
 			jwt.verify(token, "youraccesstokensecret", (err, email) => {
 				if (!err) {
+					console.log(err)
 					return res.status(200).send({ email: email.email });
 				}
 			});
@@ -169,5 +172,36 @@ async function me(req, res, next) {
 		console.log(err);
 	}
 }
+async function profile(req, res, next) {
+	try {
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+		let connectionsList = await database.connections.findAll({  raw: true , where: {userId_1: currentUser.id} })
+		var connectionProfiles = await Promise.all(connectionsList.map( async (connectionElement) => {
+			const partnerUser = await database.users.findOne({  raw: true , where: {id: connectionElement.userId_2} })
+			return partnerUser
+		})).then((completed) => {
+			return completed
+		})
+		let userWorkoutVolumeList = await database.userWorkoutVolumes.findAll({  raw: true , where: {userId: currentUser.id} })
+		var userWorkoutVolumeJoined = await Promise.all(userWorkoutVolumeList.map( async (uwvElement) => {
+			const workoutName = await database.workouts.findOne({  raw: true , where: {id: uwvElement.workoutId} })
+			const volumeName = await database.volumes.findOne({  raw: true , where: {id: uwvElement.volumeId} })
+			let workoutObj = {workout: workoutName, volume: volumeName, amount: uwvElement.maxNumber}
+			return workoutObj
+		})).then((completed) => {
+			return completed
+		})
+		let retObj = {profile: currentUser, connections: connectionProfiles, workouts: userWorkoutVolumeJoined}
+		return res.send(retObj)
+
+	} catch (err) {
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
+	}
+}
+
+
+
 
 module.exports = userController;
