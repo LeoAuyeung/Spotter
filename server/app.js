@@ -16,15 +16,13 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 
 app.get("/", (req, res, next) => res.send("Spotter Backend"));
 app.use("/api", apiRouter);
 
-app.get("/*", (req, res) => {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
+
 
 // Heroku post-build script
 // Serve static assets if in production
