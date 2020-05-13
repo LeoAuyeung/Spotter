@@ -3,12 +3,20 @@ import Avatar from '@material-ui/core/Avatar'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
+import { makeStyles } from '@material-ui/core/styles';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import "./Profile.css"
 
 const avatarStyle= {
     width: '100px',
     height: '100px'
 }
+const useStyles = makeStyles({
+    root: {
+      maxWidth: 345,
+    },
+  });
 
 const UserProfileView = props => {
     const {user, workouts, imgUrl, workout, amount, volume} = props
