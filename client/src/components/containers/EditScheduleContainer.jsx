@@ -12,6 +12,11 @@ class EditScheduleContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			columns: [
+				{ name: "day", title: "Day" },
+				{ name: "startTime", title: "Start Time" },
+				{ name: "endTime", title: "EndTime" },
+			],
 			schedules: undefined,
 		};
 	}
@@ -33,7 +38,13 @@ class EditScheduleContainer extends Component {
 	};
 
 	render() {
-		return <EditScheduleView schedules={this.state.schedules} />;
+		return (
+			<EditScheduleView
+				rows={this.state.rows}
+				columns={this.state.columns}
+				schedules={this.state.schedules}
+			/>
+		);
 	}
 }
 
