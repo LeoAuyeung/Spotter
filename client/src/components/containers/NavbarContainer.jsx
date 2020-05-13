@@ -3,14 +3,9 @@ import { connect } from "react-redux";
 
 import { NavbarView } from "../views";
 
-import { me, logoutThunk } from "../../actions";
+import { logoutThunk } from "../../actions";
 
 class NavbarContainer extends Component {
-	constructor(props) {
-		super(props);
-		props.loadInitialData();
-	}
-
 	render() {
 		return (
 			<NavbarView
@@ -32,7 +27,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		logout: () => dispatch(logoutThunk()),
-		loadInitialData: () => dispatch(me()),
 	};
 };
 

@@ -20,9 +20,8 @@ import {
 import { me } from "./actions";
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-		props.loadInitialData();
+	componentDidMount() {
+		this.props.loadInitialData();
 	}
 
 	render() {
@@ -36,7 +35,7 @@ class App extends Component {
 				<Route exact path="/profile" render={() => <ProfileContainer />} />
 				<Route
 					exact
-					path="/profile/:id"
+					path="/profile/:name"
 					render={() => <UserProfileContainer />}
 				/>
 				<Route exact path="/edit" render={() => <EditProfileContainer />} />

@@ -1,14 +1,8 @@
-import {
-	GET_USERS,
-	LOGIN,
-	LOGOUT,
-	GET_PROFILE,
-	EDIT_BIO,
-} from "../actions/actionTypes";
+import { GET_USERS, LOGIN, LOGOUT } from "../actions/actionTypes";
 
 const initialState = {
 	loggedInUser: {},
-	possibleMatches: [],
+	possibleMatches: {},
 	currentUser: {},
 };
 
@@ -28,16 +22,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedInUser: {},
-			};
-		case GET_PROFILE:
-			return {
-				...state,
-				currentUser: action.payload,
-			};
-		case EDIT_BIO:
-			return {
-				...state,
-				currentUser: action.payload,
 			};
 		default:
 			return state;

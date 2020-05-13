@@ -1,9 +1,11 @@
-.users-container {
-	border: 1px black solid;
-	width: 60%;
-	margin: 25px;
-	padding: 10px;
-	/* display: flex; */
+
+
+.users-container{
+    border: 1px black solid;
+    width: 50%;
+    margin: 25px;
+    padding: 10px;
+    /* display: flex; */
 }
 /* 
 .row{
@@ -14,21 +16,24 @@
 
 
 } */
-.btn {
-	margin: 0 auto;
-	display: block;
-	background: transparent;
-	padding: 10px;
-	color: black;
-	border-radius: 4px;
-	font-size: 0.6em;
+.btn{
+    margin:0 auto;
+    display:block;
+    background: transparent;
+    padding: 10px;
+    color: black;
+    border-radius: 4px;
+    font-size: .6em;
 }
-.pull-right {
-	float: right;
+.pull-right{
+    float: right
 }
 
-.profile-img {
-	border-radius: 50%;
-	width: 100px;
-	height: 100px;
+.profile-img{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
 }
+
+
+

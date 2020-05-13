@@ -20,11 +20,15 @@ const userController = {
 	profile,
 	otherProfile,
 	editUserBio,
+	pendingInvites,
+	getNotifications,
+	readNotification
 };
 
 async function getAllUsers(req, res, next) {
 	try {
 		const decoded = await decodeJwt(req.headers);
+		console.log(decoded.email);
 		var allUsers = await database.users.findAll();
 		res.status(200).json(allUsers);
 	} catch (err) {
@@ -53,9 +57,9 @@ async function getFilteredUsers(req, res, next) {
 				raw: true,
 				where: {
 					gymId: {
-						[Op.or]: allUserFilters.userGymIdList,
-					},
-				},
+						[Op.or]: allUserFilters.userGymIdList
+					}
+				}
 			});
 		}
 		// If there are usertraits, search userTraits by traitId
@@ -65,16 +69,14 @@ async function getFilteredUsers(req, res, next) {
 				raw: true,
 				where: {
 					traitId: {
-						[Op.or]: allUserFilters.userTraitIdList,
-					},
-				},
+						[Op.or]: allUserFilters.userTraitIdList
+					}
+				}
 			});
 		}
 
 		// Then, add all these userIds into a master list of userIds to search by
-		const allUserIds = userGymsFilter
-			.concat(userTraitsFilter)
-			.map((item) => item.userId);
+		const allUserIds = userGymsFilter.concat(userTraitsFilter).map(item => item.userId);
 
 		// Then, search users by userIds (automatically removes duplicates this way)
 		// May return empty list if no users match all requirements
@@ -82,13 +84,14 @@ async function getFilteredUsers(req, res, next) {
 			raw: true,
 			where: {
 				id: {
-					[Op.or]: allUserIds,
-				},
-			},
+					[Op.or]: allUserIds
+				}
+			}
 		});
-
+		
 		res.status(200).json(allFilteredUsers);
-	} catch (err) {
+	}
+	catch (err) {
 		console.log(err);
 	}
 }
@@ -164,7 +167,7 @@ async function me(req, res, next) {
 			const token = authHeader;
 			jwt.verify(token, "youraccesstokensecret", (err, email) => {
 				if (!err) {
-					console.log(err);
+					console.log(err)
 					return res.status(200).send({ email: email.email });
 				}
 			});
@@ -176,96 +179,47 @@ async function me(req, res, next) {
 async function profile(req, res, next) {
 	try {
 		let newSchedule = req.body;
-		let decodedJwt = await decodeJwt(req.headers);
-		let currentUser = await database.users.findOne({
-			raw: true,
-			where: { email: decodedJwt.email },
-		});
-		let connectionsList = await database.connections.findAll({
-			raw: true,
-			where: { userId_1: currentUser.id },
-		});
-		var connectionProfiles = await Promise.all(
-			connectionsList.map(async (connectionElement) => {
-				const partnerUser = await database.users.findOne({
-					raw: true,
-					where: { id: connectionElement.userId_2 },
-				});
-				return partnerUser;
-			})
-		).then((completed) => {
-			return completed;
-		});
-		let userWorkoutVolumeList = await database.userWorkoutVolumes.findAll({
-			raw: true,
-			where: { userId: currentUser.id },
-		});
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+		let connectionsList = await database.connections.findAll({  raw: true , where: {userId_1: currentUser.id} })
+		var connectionProfiles = await Promise.all(connectionsList.map( async (connectionElement) => {
+			const partnerUser = await database.users.findOne({  raw: true , where: {id: connectionElement.userId_2} })
+			return partnerUser
+		})).then((completed) => {
+			return completed
+		})
+		let userWorkoutVolumeList = await database.userWorkoutVolumes.findAll({  raw: true , where: {userId: currentUser.id} })
+		var userWorkoutVolumeJoined = await Promise.all(userWorkoutVolumeList.map( async (uwvElement) => {
+			const workoutName = await database.workouts.findOne({  raw: true , where: {id: uwvElement.workoutId} })
+			const volumeName = await database.volumes.findOne({  raw: true , where: {id: uwvElement.volumeId} })
+			let workoutObj = {workoutId:uwvElement.workoutId, workout: workoutName, volume: volumeName, amount: uwvElement.maxNumber}
+			return workoutObj
+		})).then((completed) => {
+			return completed
+		})
+		
+		let userGymsList = await database.userGyms.findAll({  raw: true , where: {userId: currentUser.id} })
+		console.log(userGymsList)
+		var userGymsListJoined = await Promise.all(userGymsList.map( async (gymElement) => {
+			const gymInfo = await database.gyms.findOne({  raw: true , where: {id: gymElement.gymId} })
+			return gymInfo
+		})).then((completed) => {
+			return completed
+		})
 
-		var userWorkoutVolumeJoined = await Promise.all(
-			userWorkoutVolumeList.map(async (uwvElement) => {
-				const workoutName = await database.workouts.findOne({
-					raw: true,
-					where: { id: uwvElement.workoutId },
-				});
-				const volumeName = await database.volumes.findOne({
-					raw: true,
-					where: { id: uwvElement.volumeId },
-				});
-				let workoutObj = {
-					workoutId: uwvElement.workoutId,
-					workout: workoutName,
-					volume: volumeName,
-					amount: uwvElement.maxNumber,
-				};
-				return workoutObj;
-			})
-		).then((completed) => {
-			return completed;
-		});
+		var userFeedList = await Promise.all(connectionsList.map( async (connectionElement) => {
+			const feedInfo = await database.activityFeed.findOne({  raw: true , where: {userId: connectionElement.userId_2}})
+			const connectProfile = await database.users.findOne({  raw: true , where: {id: connectionElement.userId_2}})
+			let retFeedInfo = {feedUser: connectProfile, feed: feedInfo}
+			return retFeedInfo
+		})).then((completed) => {
+			return completed
+		})
+		let retObj = {profile: currentUser, connections: connectionProfiles, workouts: userWorkoutVolumeJoined, gyms: userGymsListJoined, feed: userFeedList}
+		return res.send(retObj)
 
-		let userGymsList = await database.userGyms.findAll({
-			raw: true,
-			where: { userId: currentUser.id },
-		});
-		console.log(userGymsList);
-		var userGymsListJoined = await Promise.all(
-			userGymsList.map(async (gymElement) => {
-				const gymInfo = await database.gyms.findOne({
-					raw: true,
-					where: { id: gymElement.gymId },
-				});
-				return gymInfo;
-			})
-		).then((completed) => {
-			return completed;
-		});
-
-		var userFeedList = await Promise.all(
-			connectionsList.map(async (connectionElement) => {
-				const feedInfo = await database.activityFeed.findOne({
-					raw: true,
-					where: { userId: connectionElement.userId_2 },
-				});
-				const connectProfile = await database.users.findOne({
-					raw: true,
-					where: { id: connectionElement.userId_2 },
-				});
-				let retFeedInfo = { feedUser: connectProfile, feed: feedInfo };
-				return retFeedInfo;
-			})
-		).then((completed) => {
-			return completed;
-		});
-		let retObj = {
-			profile: currentUser,
-			connections: connectionProfiles,
-			workouts: userWorkoutVolumeJoined,
-			gyms: userGymsListJoined,
-			feed: userFeedList,
-		};
-		return res.send(retObj);
 	} catch (err) {
-		console.log(err);
+		console.log(err)
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
 	}
 }
@@ -336,64 +290,91 @@ async function otherProfile(req, res, next) {
 		).then((completed) => {
 			return completed;
 		});
+async function pendingInvites(req, res, next) {
+	try {
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+		let currentSessions = await database.sessionConfirmations.findAll({  raw: true , where: {userId: currentUser.id} })
 
-		var userFeedList = await Promise.all(
-			connectionsList.map(async (connectionElement) => {
-				const feedInfo = await database.activityFeed.findOne({
-					raw: true,
-					where: { userId: connectionElement.userId_2 },
-				});
-				const connectProfile = await database.users.findOne({
-					raw: true,
-					where: { id: connectionElement.userId_2 },
-				});
-				let retFeedInfo = { feedUser: connectProfile, feed: feedInfo };
-				return retFeedInfo;
-			})
-		).then((completed) => {
-			return completed;
+		var possibleSessions = await Promise.all(currentSessions.map( async (sessionEle) => {
+			var tempSession = await database.sessions.findOne({  raw: true , where: {id: sessionEle.sessionId} })
+			return tempSession
+		})).then((completed) => {
+			return completed
+		})
+		console.log(possibleSessions)
+		var nonConfirmedSessions = await Promise.all(possibleSessions.map( async (sessionEle) => {
+			var confirmedSessionCount = await database.sessionConfirmations.findAll({  raw: true , where: {sessionId: sessionEle.id, isConfirmed: true} })
+			if (confirmedSessionCount.length == 1){
+				return sessionEle
+				
+			}
+		})).then((completed) => {
+			return completed
+		})
+
+		var retList = []
+		nonConfirmedSessions.forEach(element => {
+			if (element != null ){
+				retList.push(element)
+			}
 		});
-		let retObj = {
-			profile: currentUser,
-			connections: connectionProfiles,
-			workouts: userWorkoutVolumeJoined,
-			gyms: userGymsListJoined,
-			feed: userFeedList,
-		};
-		return res.send(retObj);
+	
+		var retList2 = await Promise.all(retList.map( async (sessionEle) => {
+			var confirmedSessionCount = await database.sessionConfirmations.findOne({  raw: true , where: {
+				userId: { [Op.not] : currentUser.id },
+				sessionId: sessionEle.id
+			} })
+			var userTwo = await database.users.findAll({  raw: true , where: {id: confirmedSessionCount.userId} })
+			var retObject = {session: sessionEle, otherUser: userTwo}
+			return retObject
+		})).then((completed) => {
+			return completed
+		})
+		
+
+		return res.send(retList2)
+
 	} catch (err) {
-		console.log(err);
+		console.log(err)
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
 	}
 }
 
-async function editUserBio(req, res, next) {
+async function getNotifications(req, res, next) {
 	try {
-		const decodedJwt = await decodeJwt(req.headers);
-		var currentUser = await database.users.findOne({
-			raw: true,
-			where: { email: decodedJwt.email },
-		});
-		const newBio = req.body.bio;
-		currentUser.bio = newBio;
-		const [updated] = await database.users.update(currentUser, {
-			where: { id: currentUser.id },
-		});
-		if (updated) {
-			const updatedUser = await database.users.findOne({
-				where: { id: currentUser.id },
-			});
-			return res.status(200).json({ updatedUser });
-		} else {
-			return res.status(200).json({ currentUser });
-		}
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+
+		let listOfNotif = await database.notifications.findAll({  raw: true , where: {userId: currentUser.id} })
+
+		
+		return res.send(listOfNotif)
+
 	} catch (err) {
-		console.log(err);
-		return res.status(500).json({
-			code: "error",
-			message: "Error with updating UserWorkoutVolume. Please retry.",
-		});
+		console.log(err)
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
 	}
 }
+
+async function readNotification(req, res, next) {
+	try {
+		const { id } = req.params;
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currNotif = await database.notifications.findOne({  raw: true , where: {id: id} })
+		currNotif.read = true 
+		const [ updated ] = await database.notifications.update(currNotif, {where: { id: id }});
+        return res.status(200).json({ currNotif });
+	} catch (err) {
+		console.log(err)
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
+	}
+}
+
+
+
 
 module.exports = userController;

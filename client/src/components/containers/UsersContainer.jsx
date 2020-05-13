@@ -10,13 +10,15 @@ class UsersContainer extends Component {
 		super(props);
 		this.state = {
 			filter: "",
-			users: props.users,
+			users: [],
 		};
 	}
 
 	componentDidMount = async () => {
-		await this.props.getUsers();
-		this.setState({ users: this.props.users });
+		if (this.props.isLoggedIn) {
+			await this.props.getUsers();
+			this.setState({ users: this.props.users });
+		}
 	};
 
 	handleChange = (e) => {
@@ -54,10 +56,10 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispathToProps = (dispatch) => {
 	return {
 		getUsers: () => dispatch(getUsersThunk()),
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, mapDispathToProps)(UsersContainer);
