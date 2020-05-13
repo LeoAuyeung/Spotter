@@ -106,6 +106,22 @@ const NavbarView = (props) => {
 									Favorites
 								</Link>
 							</MenuItem>
+							<MenuItem onClick={handleClose}>
+								<Link
+									to="/notifications"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									Notifications
+								</Link>
+							</MenuItem>
+							<MenuItem onClick={handleClose}>
+								<Link
+									to="/invites"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									Invites
+								</Link>
+							</MenuItem>
 						</Menu>
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>
