@@ -36,7 +36,7 @@ const calculateAge = (birthday) => {
 const UserProfileView = (props) => {
 	const { user } = props;
 
-	const { handleConnect } = props;
+	const { handleConnect, handleFavorite } = props;
 
 	const classes = useStyles();
 
@@ -130,6 +130,7 @@ const UserProfileView = (props) => {
 							<Button
 								variant="contained"
 								className="btn btn-primary pull-right"
+								onClick={() => handleFavorite()}
 							>
 								Favorite
 							</Button>

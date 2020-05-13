@@ -4,7 +4,12 @@ import { compose } from "redux";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 
-import { me, getProfileThunk, connectWithUserThunk } from "../../actions";
+import {
+	me,
+	getProfileThunk,
+	connectWithUserThunk,
+	favoriteUserThunk,
+} from "../../actions";
 
 import { UserProfileView } from "../views";
 
@@ -29,8 +34,12 @@ class UserProfileContainer extends Component {
 		const id = window.location.href.split("/").pop();
 
 		await this.props.connectWithUser(id);
+	};
 
-		// window.location.reload();
+	handleFavorite = async () => {
+		const id = window.location.href.split("/").pop();
+
+		await this.props.favoriteUser(id);
 	};
 
 	render() {
@@ -38,6 +47,7 @@ class UserProfileContainer extends Component {
 			<UserProfileView
 				user={this.state.user}
 				handleConnect={this.handleConnect}
+				handleFavorite={this.handleFavorite}
 			/>
 		);
 	}
@@ -55,6 +65,7 @@ const mapDispatchToProps = (dispatch) => {
 		me: () => dispatch(me()),
 		getProfile: (id) => dispatch(getProfileThunk(id)),
 		connectWithUser: (id) => dispatch(connectWithUserThunk(id)),
+		favoriteUser: (id) => dispatch(favoriteUserThunk(id)),
 	};
 };
 

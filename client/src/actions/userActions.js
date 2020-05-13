@@ -5,6 +5,8 @@ import {
 	GET_PROFILE,
 	EDIT_BIO,
 	CREATE_CONNECTION,
+	GET_FAVORITES,
+	ME,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -48,6 +50,20 @@ const editProfileBio = (user) => {
 const connectWithUser = () => {
 	return {
 		type: CREATE_CONNECTION,
+	};
+};
+
+const getFavorites = (users) => {
+	return {
+		type: GET_FAVORITES,
+		payload: users,
+	};
+};
+
+const mee = (data) => {
+	return {
+		type: ME,
+		payload: data,
 	};
 };
 
@@ -144,7 +160,14 @@ export const me = () => async (dispatch) => {
 			email: res.data.email,
 		};
 
-		dispatch(login(loggedInUser || {}));
+		const res2 = await axios.get(`${BASE_URL}/api/users/profile`, {
+			headers,
+		});
+
+		const user = res2.data;
+
+		dispatch(mee([loggedInUser || {}, user]));
+		// dispatch(login(loggedInUser || {}));
 	} catch (err) {
 		console.error(err);
 	}
@@ -221,6 +244,40 @@ export const connectWithUserThunk = (id) => async (dispatch) => {
 		});
 
 		dispatch(connectWithUser());
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const favoriteUserThunk = (id) => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+
+		const res = axios.post(`${BASE_URL}/api/favorites/${id}`, null, {
+			headers: headers,
+		});
+
+		dispatch(connectWithUser());
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getFavoritesThunk = (id) => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+
+		const res = await axios.get(`${BASE_URL}/api/favorites/${id}`, {
+			headers: headers,
+		});
+
+		const users = res.data;
+
+		dispatch(getFavorites(users));
 	} catch (err) {
 		console.log(err);
 	}

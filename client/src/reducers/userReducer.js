@@ -5,12 +5,15 @@ import {
 	GET_PROFILE,
 	EDIT_BIO,
 	CREATE_CONNECTION,
+	GET_FAVORITES,
+	ME,
 } from "../actions/actionTypes";
 
 const initialState = {
 	loggedInUser: {},
 	possibleMatches: [],
 	currentUser: {},
+	favorites: [],
 };
 
 export default (state = initialState, action) => {
@@ -43,6 +46,17 @@ export default (state = initialState, action) => {
 		case CREATE_CONNECTION:
 			return {
 				...state,
+			};
+		case GET_FAVORITES:
+			return {
+				...state,
+				favorites: action.payload,
+			};
+		case ME:
+			return {
+				...state,
+				loggedInUser: action.payload[0],
+				currentUser: action.payload[1],
 			};
 		default:
 			return state;

@@ -7,3 +7,6 @@ export const EDIT_BIO = "EDIT_BIO";
 export const CREATE_CONNECTION = "CREATE_CONNECTIOn";
 
 export const GET_SCHEDULES = "GET_SCHEDULES";
+
+export const GET_FAVORITES = "GET_FAVORITES";
+export const ME = "ME";
