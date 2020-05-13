@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 const connectionsController = {
 	getAllConnections: getAllConnections,
 	getUserConnections: getUserConnections,
+	getMyConnections: getMyConnections,
 	createConnection: createConnection,
 	deleteConnection: deleteConnection,
 };
@@ -18,7 +19,7 @@ async function getAllConnections(req, res, next) {
 	}
 }
 
-async function getUserConnections(req, res, next) {
+async function getMyConnections(req, res, next) {
 	try {
 		let decodedJwt = await decodeJwt(req.headers);
 		let currentUser = await database.users.findOne({
@@ -33,8 +34,54 @@ async function getUserConnections(req, res, next) {
 				[Op.or]: [{ userId_1: currentUser.id }, { userId_2: currentUser.id }],
 			},
 		});
+		
+		let connectionsList = [];
+		for (let i = 0; i < userConnections.length; i++) {
+			if (userConnections[i].userId_1 == currentUser.id) {
+				// return second user
+				const user = await database.users.findAll({ raw: true, where: { id: userConnections[i].userId_2 }});
+				connectionsList.push(user);
+			}
+			else {
+				// return first user
+				const user = await database.users.findAll({ raw: true, where: { id: userConnections[i].userId_1 }});
+				connectionsList.push(user);
+			}
+		}
 
-		res.status(200).json(userConnections);
+		res.status(200).json(connectionsList);
+	} catch (err) {
+		console.log(err);
+	}
+}
+
+async function getUserConnections(req, res, next) {
+	try {
+		const { userId } = req.params;
+
+		// Get all connections of current user
+		const userConnections = await database.connections.findAll({
+			raw: true,
+			where: {
+				[Op.or]: [{ userId_1: userId }, { userId_2: userId }],
+			},
+		});
+		
+		let connectionsList = []
+		for (let i = 0; i < userConnections.length; i++) {
+			if (userConnections[i].userId_1 == userId) {
+				// return second user
+				const user = await database.users.findAll({ raw: true, where: { id: userConnections[i].userId_2 }});
+				connectionsList.push(user);
+			}
+			else {
+				// return first user
+				const user = await database.users.findAll({ raw: true, where: { id: userConnections[i].userId_1 }});
+				connectionsList.push(user);
+			}
+		}
+
+		res.status(200).json(connectionsList);
 	} catch (err) {
 		console.log(err);
 	}
