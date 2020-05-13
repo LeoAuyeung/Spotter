@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    imageLink: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     tableName: 'workouts'

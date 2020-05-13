@@ -36,6 +36,10 @@ module.exports = function(sequelize, DataTypes) {
     profileLink: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     tableName: 'users'
