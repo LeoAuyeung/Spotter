@@ -16,6 +16,7 @@ import {
 	EditScheduleContainer,
 	ErrorContainer,
 	ManageInvitesContainer,
+	NotificationsContainer
 } from "./components";
 
 import { me } from "./actions";
@@ -35,6 +36,8 @@ class App extends Component {
 				<Route exact path="/users" render={() => <UsersContainer />} />
 				<Route exact path="/profile" render={() => <ProfileContainer />} />
 				<Route exact path="/invites" render={() => <ManageInvitesContainer />} />
+				<Route exact path="/notifications" render={() => <NotificationsContainer />} />
+
 
 				<Route
 					exact

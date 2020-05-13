@@ -12,5 +12,7 @@ router.route("/auth/register").post(userController.registerUser);
 router.route("/me").get(userController.me);
 router.route("/profile").get(userController.profile);
 router.route("/pendingInvites").get(userController.pendingInvites);
+router.route("/notifications").get(userController.getNotifications);
+router.route("/notifications/:id/read").get(userController.readNotification);
 
 module.exports = router;
