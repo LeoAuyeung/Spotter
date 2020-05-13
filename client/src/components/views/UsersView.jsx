@@ -28,6 +28,8 @@ const UsersView = (props) => {
 	return (
 		<div>
 			<div className={classes.filter}>
+				Select your filter:
+				<br></br>
 				<Select onChange={handleChange}>
 					<MenuItem value="">Select a filter</MenuItem>
 					<MenuItem value="M">Male</MenuItem>
