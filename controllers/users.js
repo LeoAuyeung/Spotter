@@ -456,7 +456,7 @@ async function getNotifications(req, res, next) {
 
 		let listOfNotif = await database.notifications.findAll({
 			raw: true,
-			where: { userId: currentUser.id },
+			where: { userId: currentUser.id, read: false },
 		});
 
 		return res.send(listOfNotif);
