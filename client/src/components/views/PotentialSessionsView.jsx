@@ -14,6 +14,7 @@ const PotentialSessionsView = (props) => {
     const {sessions} = props
 	return (
 		<div>
+            {/* {sessions} */}
             <Card>
                     <CardContent>
                         <div className = "user-profile">
