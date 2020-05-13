@@ -27,11 +27,11 @@ class UsersContainer extends Component {
 
 	filterItems = () => {
 		const { filter, users } = this.state;
-		const lowercaseFilter = filter.toLowerCase();
+		const pickedFilter = filter;
 		const filteredData =
 			filter === ""
 				? users
-				: users.filter((item) => item.gender === lowercaseFilter);
+				: users.filter((item) => item.gender === pickedFilter);
 		return filteredData;
 	};
 

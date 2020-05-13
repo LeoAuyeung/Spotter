@@ -4,6 +4,9 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import {Link} from 'react-router-dom'
+import { makeStyles } from '@material-ui/core/styles';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 
 import "./Profile.css"
 
@@ -11,9 +14,15 @@ const avatarStyle= {
     width: '100px',
     height: '100px'
 }
+const useStyles = makeStyles({
+    root: {
+      maxWidth: 345,
+    },
+  });
 
 const ProfileView = props => {
-    const {user} = props
+    const {user, workouts, imgUrl, workout, amount, volume} = props
+    const classes = useStyles();
 
 
 	return (
@@ -32,7 +41,7 @@ const ProfileView = props => {
                         <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit/workout">Edit Workout</Link></Button>
 
                         <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit">Edit Profile</Link></Button>
-                        <Button variant = "contained" className= "btn btn-primary pull-right">Edit Calender</Button>
+                        <Button variant = "contained" className= "btn btn-primary pull-right"><Link className = "profile-link" to="/edit/schedule">Edit Calender</Link></Button>
 
                     </CardContent>
                 </Card>
@@ -42,6 +51,24 @@ const ProfileView = props => {
                 <Card>
                     <CardContent>
                         Workouts
+                        {workouts.map((c, index)=> 
+                        <Card className={classes.root}>
+                            <CardMedia
+                            component="img"
+                            
+                            height="140"
+                            image src = {imgUrl}
+                            
+                            />
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+
+                            </Typography>
+                            </CardContent>
+                        </Card>)}
                     </CardContent>
                 </Card>
             </div>
