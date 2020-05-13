@@ -200,6 +200,7 @@ async function profile(req, res, next) {
 			raw: true,
 			where: { userId: currentUser.id },
 		});
+
 		var userWorkoutVolumeJoined = await Promise.all(
 			userWorkoutVolumeList.map(async (uwvElement) => {
 				const workoutName = await database.workouts.findOne({
@@ -268,7 +269,6 @@ async function profile(req, res, next) {
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
 	}
 }
-
 
 async function otherProfile(req, res, next) {
 	try {
@@ -367,29 +367,33 @@ async function otherProfile(req, res, next) {
 	}
 }
 
-
 async function editUserBio(req, res, next) {
 	try {
-
-        const decodedJwt = await decodeJwt(req.headers);
-        var currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
-		const newBio = req.body.bio
-		currentUser.bio = newBio
-        const [ updated ] = await database.users.update(currentUser, { where: { id: currentUser.id } });
-        if (updated) {
-            const updatedUser = await database.users.findOne({ where: { id: currentUser.id } });
-            return res.status(200).json({ updatedUser });
-		}
-		else{
+		const decodedJwt = await decodeJwt(req.headers);
+		var currentUser = await database.users.findOne({
+			raw: true,
+			where: { email: decodedJwt.email },
+		});
+		const newBio = req.body.bio;
+		currentUser.bio = newBio;
+		const [updated] = await database.users.update(currentUser, {
+			where: { id: currentUser.id },
+		});
+		if (updated) {
+			const updatedUser = await database.users.findOne({
+				where: { id: currentUser.id },
+			});
+			return res.status(200).json({ updatedUser });
+		} else {
 			return res.status(200).json({ currentUser });
 		}
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(500).json({ code: "error", message: "Error with updating UserWorkoutVolume. Please retry." });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({
+			code: "error",
+			message: "Error with updating UserWorkoutVolume. Please retry.",
+		});
 	}
 }
-
-
 
 module.exports = userController;

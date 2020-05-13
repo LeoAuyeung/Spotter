@@ -123,7 +123,7 @@ const ProfileView = (props) => {
 								className="btn btn-primary pull-right"
 							>
 								<Link className="profile-link" to="/edit/workout">
-									Edit Workout
+									Add Workout
 								</Link>
 							</Button>
 
