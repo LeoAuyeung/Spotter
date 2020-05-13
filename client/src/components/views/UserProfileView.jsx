@@ -54,6 +54,7 @@ const UserProfileView = props => {
                             component="img"
                             
                             height="140"
+                            image src = {""}
                             
                             />
                             <CardContent>
