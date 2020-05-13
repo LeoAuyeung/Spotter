@@ -157,7 +157,6 @@ async function registerUser(req, res, next) {
 
 async function me(req, res, next) {
 	try {
-		console.log("-------------------------------------------------")
 		const authHeader = req.headers.authorization;
 		if (authHeader) {
 			const token = authHeader;
