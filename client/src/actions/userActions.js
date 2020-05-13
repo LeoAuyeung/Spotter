@@ -148,3 +148,23 @@ export const getMyProfileThunk = () => async (dispatch) => {
 		console.log(err);
 	}
 };
+
+// need backend for profile
+export const getProfileThunk = () => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+	}
+};
+
+// need backend function for edit bio
+export const editProfileBioThunk = () => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+	} catch (err) {
+		console.log(err);
+	}
+};

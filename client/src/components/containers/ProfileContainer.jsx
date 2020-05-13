@@ -16,8 +16,6 @@ class ProfileContainer extends Component {
 	componentDidMount = async () => {
 		await this.props.getMyProfile();
 
-		console.log(this.props.currentUser);
-
 		this.setState({
 			user: this.props.currentUser,
 		});
@@ -25,12 +23,6 @@ class ProfileContainer extends Component {
 
 	render() {
 		return <ProfileView user={this.state.user} />;
-
-		// return this.props.gotCurrentUser ? (
-		// 	<ProfileView user={this.state.user} />
-		// ) : (
-		// 	<div>blank</div>
-		// );
 	}
 }
 
