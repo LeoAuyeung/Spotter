@@ -10,15 +10,13 @@ class UsersContainer extends Component {
 		super(props);
 		this.state = {
 			filter: "",
-			users: [],
+			users: props.users,
 		};
 	}
 
 	componentDidMount = async () => {
-		if (this.props.isLoggedIn) {
-			await this.props.getUsers();
-			this.setState({ users: this.props.users });
-		}
+		await this.props.getUsers();
+		this.setState({ users: this.props.users });
 	};
 
 	handleChange = (e) => {
