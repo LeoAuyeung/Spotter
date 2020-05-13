@@ -122,6 +122,15 @@ const NavbarView = (props) => {
 									Invites
 								</Link>
 							</MenuItem>
+
+							<MenuItem onClick={handleClose}>
+								<Link
+									to="/connect/find/sessions"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									Sessions
+								</Link>
+							</MenuItem>
 						</Menu>
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>

@@ -21,7 +21,32 @@ const EditScheduleView = (props) => {
 			{ title: "Start Time", field: "startTime" },
 			{ title: "End Time", field: "endTime" },
 		],
-		data: [],
+		data: [
+			{
+				id: 2,
+				day: "Monday",
+				startTime: "11:00AM",
+				endTime: "12:00PM",
+			},
+			{
+				id: 3,
+				day: "Tuesday",
+				startTime: "1:00PM",
+				endTime: "2:00PM",
+			},
+			{
+				id: 4,
+				day: "Thursday",
+				startTime: "9:00AM",
+				endTime: "11:00AM",
+			},
+			{
+				id: 5,
+				day: "Friday",
+				startTime: "11:00AM",
+				endTime: "12:00PM",
+			},
+		],
 	});
 	return (
 		<MaterialTable
