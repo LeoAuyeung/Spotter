@@ -17,7 +17,10 @@ const userController = {
 	registerUser,
 	decodeJwtToken,
 	me,
-	profile
+	profile,
+	pendingInvites,
+	getNotifications,
+	readNotification
 };
 
 async function getAllUsers(req, res, next) {
@@ -171,6 +174,7 @@ async function me(req, res, next) {
 		console.log(err);
 	}
 }
+
 async function profile(req, res, next) {
 	try {
 		let newSchedule = req.body;
@@ -213,6 +217,90 @@ async function profile(req, res, next) {
 		let retObj = {profile: currentUser, connections: connectionProfiles, workouts: userWorkoutVolumeJoined, gyms: userGymsListJoined, feed: userFeedList}
 		return res.send(retObj)
 
+	} catch (err) {
+		console.log(err)
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
+	}
+}
+
+async function pendingInvites(req, res, next) {
+	try {
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+		let currentSessions = await database.sessionConfirmations.findAll({  raw: true , where: {userId: currentUser.id} })
+
+		var possibleSessions = await Promise.all(currentSessions.map( async (sessionEle) => {
+			var tempSession = await database.sessions.findOne({  raw: true , where: {id: sessionEle.sessionId} })
+			return tempSession
+		})).then((completed) => {
+			return completed
+		})
+		console.log(possibleSessions)
+		var nonConfirmedSessions = await Promise.all(possibleSessions.map( async (sessionEle) => {
+			var confirmedSessionCount = await database.sessionConfirmations.findAll({  raw: true , where: {sessionId: sessionEle.id, isConfirmed: true} })
+			if (confirmedSessionCount.length == 1){
+				return sessionEle
+				
+			}
+		})).then((completed) => {
+			return completed
+		})
+
+		var retList = []
+		nonConfirmedSessions.forEach(element => {
+			if (element != null ){
+				retList.push(element)
+			}
+		});
+	
+		var retList2 = await Promise.all(retList.map( async (sessionEle) => {
+			var confirmedSessionCount = await database.sessionConfirmations.findOne({  raw: true , where: {
+				userId: { [Op.not] : currentUser.id },
+				sessionId: sessionEle.id
+			} })
+			var userTwo = await database.users.findAll({  raw: true , where: {id: confirmedSessionCount.userId} })
+			var retObject = {session: sessionEle, otherUser: userTwo}
+			return retObject
+		})).then((completed) => {
+			return completed
+		})
+		
+
+		return res.send(retList2)
+
+	} catch (err) {
+		console.log(err)
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
+	}
+}
+
+async function getNotifications(req, res, next) {
+	try {
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+
+		let listOfNotif = await database.notifications.findAll({  raw: true , where: {userId: currentUser.id} })
+
+		
+		return res.send(listOfNotif)
+
+	} catch (err) {
+		console.log(err)
+		res.status(401).json({ code: "error", message: "Profile does not exist" });
+	}
+}
+
+async function readNotification(req, res, next) {
+	try {
+		const { id } = req.params;
+		let newSchedule = req.body;
+		let decodedJwt = await decodeJwt(req.headers);	
+		let currNotif = await database.notifications.findOne({  raw: true , where: {id: id} })
+		currNotif.read = true 
+		const [ updated ] = await database.notifications.update(currNotif, {where: { id: id }});
+        return res.status(200).json({ currNotif });
 	} catch (err) {
 		console.log(err)
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
