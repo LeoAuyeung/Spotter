@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button";
 import { LinkButton } from "../utilities";
 
 const NavbarView = (props) => {
@@ -42,24 +42,30 @@ const NavbarView = (props) => {
 		loggedInView = (
 			<Typography variant="h6" className={classes.title}>
 				<Link to="/profile" style={{ textDecoration: "none", color: "white" }}>
-					
 					Logged in as: {loggedInUser.email}
 				</Link>
-				<Button onClick={logout} color="inherit"><Link to = "/" style={{ textDecoration: "none", color: "white" }}>Sign Out</Link></Button>
+				<Button onClick={logout} color="inherit">
+					<Link to="/" style={{ textDecoration: "none", color: "white" }}>
+						Sign Out
+					</Link>
+				</Button>
 			</Typography>
 		);
 	}
 
 	const loggedOutView = (
 		<Typography variant="h6" className={classes.title}>
-			<Button color="inherit"><Link to="/signin" style={{ textDecoration: "none", color: "white" }}>
-				Sign In
-			</Link></Button>
-			<Button color="inherit"><Link to="/signup" style={{ textDecoration: "none", color: "white" }}>
-				Sign Up
-			</Link></Button>
-			
-		 </Typography>
+			<Button color="inherit">
+				<Link to="/signin" style={{ textDecoration: "none", color: "white" }}>
+					Sign In
+				</Link>
+			</Button>
+			<Button color="inherit">
+				<Link to="/signup" style={{ textDecoration: "none", color: "white" }}>
+					Sign Up
+				</Link>
+			</Button>
+		</Typography>
 	);
 
 	return (
@@ -92,6 +98,14 @@ const NavbarView = (props) => {
 									Users
 								</Link>
 							</MenuItem>
+							<MenuItem onClick={handleClose}>
+								<Link
+									to="/favorites"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									Favorites
+								</Link>
+							</MenuItem>
 						</Menu>
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>
@@ -100,7 +114,6 @@ const NavbarView = (props) => {
 						</Link>
 					</Typography>
 					<Button>{isLoggedIn ? loggedInView : loggedOutView}</Button>
-					
 				</Toolbar>
 			</AppBar>
 		</div>
