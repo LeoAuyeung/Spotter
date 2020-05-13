@@ -83,7 +83,7 @@ const ProfileView = (props) => {
 			connectionCards = (
 				<div className={classes.container}>
 					{connections.map((c) => (
-						<Card className={classes.card}>
+						<Card className={classes.card} key={c.id}>
 							<CardMedia component="img" height="200" image={c.profileLink} />
 							<CardContent>
 								<Typography gutterBottom variant="h5" component="h2">

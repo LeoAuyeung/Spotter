@@ -1,4 +1,10 @@
-import { GET_USERS, LOGIN, LOGOUT, GET_MY_PROFILE } from "./actionTypes";
+import {
+	GET_USERS,
+	LOGIN,
+	LOGOUT,
+	GET_MY_PROFILE,
+	EDIT_BIO,
+} from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
@@ -27,6 +33,13 @@ const logout = () => {
 const getMyProfile = (user) => {
 	return {
 		type: GET_MY_PROFILE,
+		payload: user,
+	};
+};
+
+const editProfileBio = (user) => {
+	return {
+		type: EDIT_BIO,
 		payload: user,
 	};
 };
@@ -78,7 +91,6 @@ export const addUserThunk = (
 		};
 
 		dispatch(login(loggedInUser));
-		// console.log(body)
 	} catch (err) {
 		console.log(err);
 	}
@@ -86,8 +98,6 @@ export const addUserThunk = (
 
 export const loginThunk = (email, password) => async (dispatch) => {
 	try {
-		console.log(BASE_URL);
-
 		const body = {
 			email: email,
 			password: password,
@@ -101,7 +111,6 @@ export const loginThunk = (email, password) => async (dispatch) => {
 		};
 
 		dispatch(login(loggedInUser));
-		console.log(`${BASE_URL}/api/users/auth/login`);
 	} catch (err) {
 		console.log(err);
 	}
@@ -155,15 +164,30 @@ export const getProfileThunk = () => async (dispatch) => {
 		const headers = {
 			authorization: localStorage.token,
 		};
+	} catch (err) {
+		console.log(err);
 	}
 };
 
-// need backend function for edit bio
-export const editProfileBioThunk = () => async (dispatch) => {
+export const editProfileBioThunk = (bio) => async (dispatch) => {
 	try {
 		const headers = {
 			authorization: localStorage.token,
 		};
+
+		const res = axios.put(
+			`${BASE_URL}/api/users/profile/editbio`,
+			{
+				bio: bio,
+			},
+			{
+				headers: headers,
+			}
+		);
+
+		const user = res.data;
+
+		dispatch(editProfileBio(user));
 	} catch (err) {
 		console.log(err);
 	}

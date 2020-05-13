@@ -3,6 +3,7 @@ import {
 	LOGIN,
 	LOGOUT,
 	GET_MY_PROFILE,
+	EDIT_BIO,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -29,6 +30,11 @@ export default (state = initialState, action) => {
 				loggedInUser: {},
 			};
 		case GET_MY_PROFILE:
+			return {
+				...state,
+				currentUser: action.payload,
+			};
+		case EDIT_BIO:
 			return {
 				...state,
 				currentUser: action.payload,

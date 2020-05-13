@@ -38,8 +38,7 @@ const EditProfileView = (props) => {
 								component={Link}
 								to="/profile"
 								variant="contained"
-								color="primary"
-								type="submit"
+								color="secondary"
 							>
 								Cancel
 							</Button>

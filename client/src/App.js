@@ -20,8 +20,9 @@ import {
 import { me } from "./actions";
 
 class App extends Component {
-	componentDidMount() {
-		this.props.loadInitialData();
+	constructor(props) {
+		super(props);
+		props.loadInitialData();
 	}
 
 	render() {
