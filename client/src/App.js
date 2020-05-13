@@ -14,7 +14,7 @@ import {
 	EditWorkoutContainer,
 	NavbarContainer,
 	EditScheduleContainer,
-	ErrorContainer
+	ErrorContainer,
 } from "./components";
 
 import { me } from "./actions";
@@ -35,7 +35,7 @@ class App extends Component {
 				<Route exact path="/profile" render={() => <ProfileContainer />} />
 				<Route
 					exact
-					path="/profile/:name"
+					path="/profile/:id"
 					render={() => <UserProfileContainer />}
 				/>
 				<Route exact path="/edit" render={() => <EditProfileContainer />} />

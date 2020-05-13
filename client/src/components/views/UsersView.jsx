@@ -24,7 +24,7 @@ const UsersView = (props) => {
 								<h1>
 									<Avatar src={c.profileLink} alt="profile-img"></Avatar>
 									<span>{c.first}</span>
-									<Link to={`/profile/${c.first}`}>
+									<Link to={`/profile/${c.id}`}>
 										<Button
 											variant="contained"
 											className="btn btn-primary pull-right"

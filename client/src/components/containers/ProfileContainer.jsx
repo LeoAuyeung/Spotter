@@ -9,12 +9,14 @@ class ProfileContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: {},
+			user: undefined,
 		};
 	}
 
 	componentDidMount = async () => {
 		await this.props.getMyProfile();
+
+		console.log(this.props.currentUser);
 
 		this.setState({
 			user: this.props.currentUser,
