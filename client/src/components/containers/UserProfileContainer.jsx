@@ -20,22 +20,26 @@ class UserProfileContainer extends Component {
 		const id = window.location.href.split("/").pop();
 		await this.props.getProfile(id);
 
-		console.log("hello");
 		this.setState({
 			user: this.props.currentUser,
 		});
 	};
 
-	// handleConnect = async () => {
-	// 	const id = window.location.href.split("/").pop();
+	handleConnect = async () => {
+		const id = window.location.href.split("/").pop();
 
-	// 	await this.props.connectWithUser(id);
+		await this.props.connectWithUser(id);
 
-	// 	window.location.reload();
-	// };
+		// window.location.reload();
+	};
 
 	render() {
-		return <UserProfileView user={this.state.user} />;
+		return (
+			<UserProfileView
+				user={this.state.user}
+				handleConnect={this.handleConnect}
+			/>
+		);
 	}
 }
 

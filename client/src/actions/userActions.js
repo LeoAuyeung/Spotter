@@ -216,7 +216,7 @@ export const connectWithUserThunk = (id) => async (dispatch) => {
 			authorization: localStorage.token,
 		};
 
-		const res = axios.put(`${BASE_URL}/api/connections/${id}`, null, {
+		const res = axios.post(`${BASE_URL}/api/connections/${id}`, null, {
 			headers: headers,
 		});
 
