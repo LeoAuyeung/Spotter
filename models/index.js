@@ -31,6 +31,8 @@ if (true) {
 		}
 	);
 	console.log("new seq");
+	console.log(process.env.DATABASE_USER)
+
 } else {
 	sequelize = new Sequelize(
 		config.database,
