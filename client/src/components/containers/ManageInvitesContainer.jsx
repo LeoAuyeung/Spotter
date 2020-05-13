@@ -9,21 +9,34 @@ class ManageInvitesContainer extends Component {
     constructor(props){
         super(props)
         this.state={
+			currInvites : undefined
         }
 	}
 	
-	componentDidMount(){
+	async componentDidMount(){
 		const BASE_URL = "";
 		const headers = {
 			authorization: localStorage.token,
 		};
-		let currentPotentialInvites = async () => await axios.get(`${BASE_URL}/api/users/`, { headers });
-		
+
+		let currentPotentialInvites = await axios.get(`${BASE_URL}/api/users/pendinginvites`, { headers });
+		this.setState({ currInvites: currentPotentialInvites })
 	}
 
  
 
 	render() {
+		console.log(this.state.currInvites)
+		/*
+		const newList = this.state.currInvites.map(currInvite => {
+			<div>
+
+
+			</div>
+
+
+		})
+		*/
 		return (
             <div></div>      
         )

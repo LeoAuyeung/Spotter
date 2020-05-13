@@ -251,8 +251,20 @@ async function pendingInvites(req, res, next) {
 				retList.push(element)
 			}
 		});
+		/*
+		var retList2 = await Promise.all(possibleSessions.map( async (retList) => {
+			var confirmedSessionCount = await database.sessionConfirmations.findOne({  raw: true , where: {sessionId: sessionEle.id, isConfirmed: true} })
+			var userTwo = await database.users.findAll({  raw: true , where: {sessionId: sessionEle.id, isConfirmed: true} })
 
-		return res.send(retList)
+			if (confirmedSessionCount.length != 2){
+				return sessionEle	
+			}
+		})).then((completed) => {
+			return completed
+		})
+		*/
+
+		return res.send(retList2)
 
 	} catch (err) {
 		console.log(err)
