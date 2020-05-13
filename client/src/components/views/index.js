@@ -9,3 +9,4 @@ export { default as EditWorkoutView } from "./EditWorkoutView.jsx";
 export { default as NavbarView } from "./NavbarView.jsx";
 export { default as EditScheduleView } from "./EditScheduleView.jsx";
 export { default as ErrorView } from "./ErrorView.jsx";
+export { default as ManageInvitesView } from "./ManageInvitesView.jsx";
