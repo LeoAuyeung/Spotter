@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 const favoritesController = {
 	getAllFavorites: getAllFavorites,
 	getUserFavorites: getUserFavorites,
+	getMyFavorites: getMyFavorites,
 	createFavorite: createFavorite,
 	deleteFavorite: deleteFavorite,
 };
@@ -18,7 +19,7 @@ async function getAllFavorites(req, res, next) {
 	}
 }
 
-async function getUserFavorites(req, res, next) {
+async function getMyFavorites(req, res, next) {
 	try {
 		let decodedJwt = await decodeJwt(req.headers);
 		let currentUser = await database.users.findOne({
@@ -33,8 +34,53 @@ async function getUserFavorites(req, res, next) {
 				[Op.or]: [{ userId_1: currentUser.id }, { userId_2: currentUser.id }],
 			},
 		});
+		let favoritesList = [];
+		for (let i = 0; i < userFavorites.length; i++) {
+			if (userFavorites[i].userId_1 == currentUser.id) {
+				// return second user
+				const user = await database.users.findAll({ raw: true, where: { id: userFavorites[i].userId_2 }});
+				favoritesList.push(user);
+			}
+			else {
+				// return first user
+				const user = await database.users.findAll({ raw: true, where: { id: userFavorites[i].userId_1 }});
+				favoritesList.push(user);
+			}
+		}
 
-		res.status(200).json(userFavorites);
+		res.status(200).json(favoritesList);
+	} catch (err) {
+		console.log(err);
+	}
+}
+
+async function getUserFavorites(req, res, next) {
+	try {
+		const { userId } = req.params;
+
+		// Get all favorites of current user
+		const userFavorites = await database.favorites.findAll({
+			raw: true,
+			where: {
+				[Op.or]: [{ userId_1: userId }, { userId_2: userId }],
+			},
+		});
+		console.log(userFavorites);
+		let favoritesList = [];
+		for (let i = 0; i < userFavorites.length; i++) {
+			if (userFavorites[i].userId_1 == userId) {
+				// return second user
+				const user = await database.users.findAll({ raw: true, where: { id: userFavorites[i].userId_2 }});
+				favoritesList.push(user);
+			}
+			else {
+				// return first user
+				const user = await database.users.findAll({ raw: true, where: { id: userFavorites[i].userId_1 }});
+				favoritesList.push(user);
+			}
+		}
+
+		res.status(200).json(favoritesList);
 	} catch (err) {
 		console.log(err);
 	}
