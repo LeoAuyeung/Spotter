@@ -8,8 +8,9 @@ const schedulesController = {
     createSchedule: createSchedule,
     editSchedule: editSchedule,
     deleteSchedule: deleteSchedule,
-
+    getScheduleOverlaps: getScheduleOverlaps,
 };
+
 
 async function getAllSchedules(req, res, next) {
 	try {
@@ -90,4 +91,85 @@ async function deleteSchedule(req, res, next) {
         return res.status(500).json({ code: "error", message: "Error with deleting Schedule. Please retry." });
 	}
 }
+
+async function getScheduleOverlaps(req, res, next) {
+	try {
+        const { userId_1, userId_2 } = req.body;
+
+        var user1_sched = await database.schedules.findAll({ raw: true, where: { userId: userId_1 } });
+        var user2_sched = await database.schedules.findAll({ raw: true, where: { userId: userId_2 } });
+        
+        var user1_map = {
+            1:[],
+            2:[],
+            3:[],
+            4:[],
+            5:[],
+            6:[],
+            7:[],
+        };
+        for (let i = 0; i < user1_sched.length; i++) {
+            const item = user1_sched[i];
+            const dayId = item.dayId;
+            user1_map[dayId] = user1_map[dayId].concat(item);
+        };
+
+        var user2_map = {
+            1:[],
+            2:[],
+            3:[],
+            4:[],
+            5:[],
+            6:[],
+            7:[],
+        };
+        for (let i = 0; i < user2_sched.length; i++) {
+            const item = user2_sched[i];
+            const dayId = item.dayId;
+            user2_map[dayId] = user2_map[dayId].concat(item);
+        };
+
+        var returnMap = {
+            1:[],
+            2:[],
+            3:[],
+            4:[],
+            5:[],
+            6:[],
+            7:[],
+        }
+        const retLen = Object.keys(returnMap).length; // Grab json obj length of returnMap
+
+        var ans = [];
+        // Intersection algorithm: implemented a custom version of: https://leetcode.com/problems/interval-list-intersections/
+        for (let i = 0; i < retLen; i++) {
+            let a = 0;
+            let b = 0;
+            const item1 = user1_map[i+1];
+            const item2 = user2_map[i+1];
+            ans = [];
+            while ((a < item1.length) && (b < item2.length)) {
+                let lo = (item1[a].startTime > item2[b].startTime) ? item1[a].startTime : item2[b].startTime;
+                let hi = (item1[a].endTime < item2[b].endTime) ? item1[a].endTime : item2[b].endTime;
+                if (lo <= hi) {
+                    ans.push( [lo, hi] );
+                }
+                if (item1[a].endTime < item2[b].endTime) {
+                    a++;
+                }
+                else {
+                    b++;
+                }
+            }
+            // Set answer
+            returnMap[i+1] = ans;
+        }
+
+		res.status(200).json(returnMap);
+    }
+    catch (err) {
+		console.log(err);
+	}
+}
+
 module.exports = schedulesController;
