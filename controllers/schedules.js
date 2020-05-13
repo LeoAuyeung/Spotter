@@ -2,9 +2,11 @@
 var database = require('../models');
 var usersModel = require('../models/schedules');
 var decodeJwt = require('../middleware/decodeJwt');
+const { Op } = require("sequelize");
 
 const schedulesController = {
     getAllSchedules: getAllSchedules,
+    getSchedules: getSchedules,
     createSchedule: createSchedule,
     editSchedule: editSchedule,
     deleteSchedule: deleteSchedule,
@@ -21,15 +23,50 @@ async function getAllSchedules(req, res, next) {
 	}
 }
 
+async function getSchedules(req, res, next) {
+	try {
+        const decodedJwt = await decodeJwt(req.headers);
+        const currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
+        const schedules = await database.schedules.findAll({ raw: true, where: { userId: currentUser.id } });
+        schedules.sort((a, b) => (a.startTime > b.startTime) ? 1 : -1);
+		res.status(200).json(schedules);
+    }
+    catch (err) {
+		console.log(err);
+	}
+}
+
 async function createSchedule(req, res, next) {
 	try {
-        let newSchedule = req.body;
-        
+        let newSchedule = req.body;        
         let decodedJwt = await decodeJwt(req.headers);
+        let currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
 
-        let currentUser = await database.users.findOne({  raw: true , where: {email: decodedJwt.email} })
+        let allSchedules = await database.schedules.findAll({ raw: true, where: {
+            [Op.and]: {
+                userId: currentUser.id,
+                dayId: newSchedule.dayId
+            }
+        } });
+
+        allSchedules.sort((a, b) => (a.startTime > b.startTime) ? 1 : -1);
+        const start = newSchedule.startTime;
+        const end = newSchedule.endTime;
+
+        for (let i = 0; i < allSchedules.length; i++) {
+            const item = allSchedules[i];
+            const startTime = item.startTime;
+            const endTime = item.endTime;
+
+            if ( (start >= startTime && (start <= endTime || end >= endTime))
+            || (end >= startTime && (start <= startTime || end >= startTime)) ) {
+                console.log("Error inserting schedule interval.");
+                return res.status(500).json({ code: "error", message: "New Schedule cannot overlap with existing Schedule. Please retry."});
+            }
+        };
+
         newSchedule.userId = currentUser.id;
-        const newCreatedSchedule =await database.schedules.create(newSchedule);
+        const newCreatedSchedule = await database.schedules.create(newSchedule);
         res.status(201).json(newCreatedSchedule);
 	} catch (err) {
 		console.log(err);

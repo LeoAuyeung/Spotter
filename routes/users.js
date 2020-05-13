@@ -13,5 +13,8 @@ router.route("/me").get(userController.me);
 router.route("/profile").get(userController.profile);
 router.route("/profile/editbio").put(userController.editUserBio);
 router.route("/profile/:id").get(userController.otherProfile);
+router.route("/pendingInvites").get(userController.pendingInvites);
+router.route("/notifications").get(userController.getNotifications);
+router.route("/notifications/:id/read").get(userController.readNotification);
 
 module.exports = router;
