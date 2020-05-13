@@ -58,7 +58,6 @@ class EditWorkoutContainer extends Component {
 		};
 
 		const body = {
-			id: Date.now(),
 			userId: Number(this.props.currentUser.profile.id),
 			workoutId: Number(workouts.indexOf(this.state.workout)) + 1,
 			volumeId: Number(volumes.indexOf(this.state.measurement)) + 1,
