@@ -11,8 +11,29 @@ const favoritesController = {
 
 async function getAllFavorites(req, res, next) {
 	try {
-		const allFavorites = await database.favorites.findAll();
-		res.status(200).json(allFavorites);
+		console.log("-------------------------------------")
+		let decodedJwt = await decodeJwt(req.headers);
+		let currentUser = await database.users.findOne({
+			raw: true,
+			where: { email: decodedJwt.email },
+		});
+		let allFavorites = await database.favorites.findAll({
+			raw: true,
+			where: { userId_1: currentUser.id },
+		});
+
+		var userFavorites = await Promise.all(
+			allFavorites.map(async (favoriteEle) => {
+				var tempUser = await database.users.findOne({
+					raw: true,
+					where: { id: favoriteEle.userId_2 },
+				});
+				return tempUser;
+			})
+		).then((completed) => {
+			return completed;
+		});
+		res.status(200).json(userFavorites);
 	} catch (err) {
 		console.log(err);
 	}
