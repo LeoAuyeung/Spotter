@@ -9,6 +9,9 @@ import React from "react";
 //   TableEditColumn
 // } from "@devexpress/dx-react-grid-material-ui";
 import MaterialTable from "material-table";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 
 const EditScheduleView = props => {
      const {rows, columns, getRowId, commitChanges} = props
@@ -28,6 +31,7 @@ const EditScheduleView = props => {
     editable={{
       onRowAdd: newData =>
         new Promise(resolve => {
+
           setTimeout(() => {
             resolve();
             setState(prevState => {
