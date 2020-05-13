@@ -290,15 +290,12 @@ async function otherProfile(req, res, next) {
 		).then((completed) => {
 			return completed;
 		});
-<<<<<<< HEAD
-=======
 	} catch (err) {
 		console.log(err);
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
 	}
 }
 
->>>>>>> 297e24b675b31a2e276c945b127d2b149406a644
 async function pendingInvites(req, res, next) {
 	try {
 		let newSchedule = req.body;
@@ -398,21 +395,6 @@ async function readNotification(req, res, next) {
 	try {
 		const { id } = req.params;
 		let newSchedule = req.body;
-<<<<<<< HEAD
-		let decodedJwt = await decodeJwt(req.headers);	
-		let currNotif = await database.notifications.findOne({  raw: true , where: {id: id} })
-		currNotif.read = true 
-		const [ updated ] = await database.notifications.update(currNotif, {where: { id: id }});
-        return res.status(200).json({ currNotif });
-	} catch (err) {
-		console.log(err)
-		res.status(401).json({ code: "error", message: "Profile does not exist" });
-	}
-}
-
-
-
-=======
 		let decodedJwt = await decodeJwt(req.headers);
 		let currNotif = await database.notifications.findOne({
 			raw: true,
@@ -429,7 +411,6 @@ async function readNotification(req, res, next) {
 	}
 }
 
-module.exports = userController;
 
 async function editUserBio(req, res, next) {
 	try {
@@ -459,6 +440,5 @@ async function editUserBio(req, res, next) {
 		});
 	}
 }
->>>>>>> 297e24b675b31a2e276c945b127d2b149406a644
 
 module.exports = userController;
