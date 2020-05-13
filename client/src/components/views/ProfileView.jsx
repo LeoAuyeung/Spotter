@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   });
 
 const ProfileView = props => {
-    const {user} = props
+    const {user, workouts, imgUrl, workout, amount, volume} = props
     const classes = useStyles();
 
 
@@ -55,7 +55,8 @@ const ProfileView = props => {
                             component="img"
                             
                             height="140"
-                            
+                            image src = {imgUrl}
+
                             />
                             <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">

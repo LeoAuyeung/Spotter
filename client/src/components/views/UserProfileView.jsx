@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   });
 
 const UserProfileView = props => {
-    const {user} = props
+    const {user, workouts, imgUrl, workout, amount, volume} = props
     const classes = useStyles();
 
 
@@ -49,12 +49,13 @@ const UserProfileView = props => {
                 <Card>
                     <CardContent>
                         Workouts
+                        {workouts.map((c, index)=> 
                         <Card className={classes.root}>
                             <CardMedia
                             component="img"
                             
                             height="140"
-                            image src = {""}
+                            image src = {imgUrl}
                             
                             />
                             <CardContent>
@@ -65,7 +66,8 @@ const UserProfileView = props => {
                                
                             </Typography>
                             </CardContent>
-                        </Card>
+                        </Card>)}
+                        
                     </CardContent>
                 </Card>
             </div>

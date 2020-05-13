@@ -92,6 +92,7 @@ export const loginThunk = (email, password) => async (dispatch) => {
 		};
 
 		dispatch(login(loggedInUser));
+		console.log(`${BASE_URL}/api/users/auth/login`);
 	} catch (err) {
 		console.log(err);
 	}
