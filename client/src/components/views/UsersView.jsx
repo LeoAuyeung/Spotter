@@ -13,8 +13,8 @@ const UsersView = (props) => {
 			<div>
 				<Select onChange={handleChange}>
 					<MenuItem value="">Select a filter</MenuItem>
-					<MenuItem value="M">Male</MenuItem>
-					<MenuItem value="F">Female</MenuItem>
+					<MenuItem value="male">Male</MenuItem>
+					<MenuItem value="female">Female</MenuItem>
 				</Select>
 			</div>
 			{users
