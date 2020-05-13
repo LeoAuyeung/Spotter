@@ -1,4 +1,11 @@
-import { GET_USERS, LOGIN, LOGOUT } from "./actionTypes";
+import {
+	GET_USERS,
+	LOGIN,
+	LOGOUT,
+	GET_PROFILE,
+	EDIT_BIO,
+	CREATE_CONNECTION,
+} from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
@@ -21,6 +28,26 @@ const login = (user) => {
 const logout = () => {
 	return {
 		type: LOGOUT,
+	};
+};
+
+const getProfile = (user) => {
+	return {
+		type: GET_PROFILE,
+		payload: user,
+	};
+};
+
+const editProfileBio = (user) => {
+	return {
+		type: EDIT_BIO,
+		payload: user,
+	};
+};
+
+const connectWithUser = () => {
+	return {
+		type: CREATE_CONNECTION,
 	};
 };
 
@@ -124,5 +151,81 @@ export const me = () => async (dispatch) => {
 		dispatch(login(loggedInUser || {}));
 	} catch (err) {
 		console.error(err);
+	}
+};
+
+export const getMyProfileThunk = () => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+		const res = await axios.get(`${BASE_URL}/api/users/profile`, { headers });
+
+		const user = res.data;
+
+		dispatch(getProfile(user));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// need backend for profile
+export const getProfileThunk = (id) => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+
+		const res = await axios.get(`${BASE_URL}/api/users/profile/${id}`, {
+			headers: headers,
+		});
+
+		console.log(res.data);
+
+		const user = res.data;
+
+		dispatch(getProfile(user));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const editProfileBioThunk = (bio) => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+
+		const res = axios.put(
+			`${BASE_URL}/api/users/profile/editbio`,
+			{
+				bio: bio,
+			},
+			{
+				headers: headers,
+			}
+		);
+
+		const user = res.data;
+
+		dispatch(editProfileBio(user));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const connectWithUserThunk = (id) => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+
+		const res = axios.post(`${BASE_URL}/api/connections/${id}`, null, {
+			headers: headers,
+		});
+
+		dispatch(connectWithUser());
+	} catch (err) {
+		console.log(err);
 	}
 };

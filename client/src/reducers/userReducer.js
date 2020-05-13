@@ -1,4 +1,11 @@
-import { GET_USERS, LOGIN, LOGOUT } from "../actions/actionTypes";
+import {
+	GET_USERS,
+	LOGIN,
+	LOGOUT,
+	GET_PROFILE,
+	EDIT_BIO,
+	CREATE_CONNECTION,
+} from "../actions/actionTypes";
 
 const initialState = {
 	loggedInUser: {},
@@ -22,6 +29,20 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedInUser: {},
+			};
+		case GET_PROFILE:
+			return {
+				...state,
+				currentUser: action.payload,
+			};
+		case EDIT_BIO:
+			return {
+				...state,
+				currentUser: action.payload,
+			};
+		case CREATE_CONNECTION:
+			return {
+				...state,
 			};
 		default:
 			return state;
