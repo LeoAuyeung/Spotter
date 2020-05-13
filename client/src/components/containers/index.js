@@ -12,3 +12,4 @@ export { default as ErrorContainer } from "./ErrorContainer.jsx";
 export { default as ManageInvitesContainer } from "./ManageInvitesContainer.jsx";
 export { default as NotificationsContainer } from "./NotificationsContainer.jsx";
 export { default as FavoritesContainer } from "./FavoritesContainer.jsx";
+export {default as PotentialSessionsContainer} from "./PotentialSessionsContainer.jsx";

@@ -18,6 +18,7 @@ import {
 	ManageInvitesContainer,
 	NotificationsContainer,
 	FavoritesContainer,
+	PotentialSessionsContainer
 } from "./components";
 
 import { me } from "./actions";
@@ -66,6 +67,7 @@ class App extends Component {
 				/>
 				<Route exact path="/error" render={() => <ErrorContainer />} />
 				<Route exact path="/favorites" render={() => <FavoritesContainer />} />
+				<Route exact path="/connect/find/sessions" render={() => <PotentialSessionsContainer />} />
 			</Router>
 		);
 	}
