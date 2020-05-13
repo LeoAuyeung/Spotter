@@ -12,7 +12,16 @@ class UserProfileContainer extends Component {
                 desc: "my name is mary", 
                 age: "21",
                 gender: "female",
-                img: "https://www.freeiconspng.com/uploads/female-icon-11.jpg"}
+                img: "https://www.freeiconspng.com/uploads/female-icon-11.jpg"},
+                workouts: [{
+                    "workout": {
+                        name: "push ups"
+                    },
+                    "amount": "40",
+                    "volume": {
+                        name: "reps"
+                    }
+                }]
         }
     }
 
@@ -22,6 +31,9 @@ class UserProfileContainer extends Component {
 		return (
             <UserProfileView 
                 user = {this.state.user}
+                workouts = {this.state.workouts}
+                
+
             />        
         )
 	}
