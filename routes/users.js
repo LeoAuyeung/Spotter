@@ -11,6 +11,7 @@ router.route("/auth/login").post(userController.loginUser);
 router.route("/auth/register").post(userController.registerUser);
 router.route("/me").get(userController.me);
 router.route("/profile").get(userController.profile);
+router.route("/profile/editbio").post(userController.editUserBio);
 router.route("/profile/:id").get(userController.otherProfile);
 
 module.exports = router;
