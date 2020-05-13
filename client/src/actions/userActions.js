@@ -1,7 +1,7 @@
 import { GET_USERS, LOGIN, LOGOUT } from "./actionTypes";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "";
 
 // Action creator
 const getUsers = (users) => {
@@ -79,6 +79,8 @@ export const addUserThunk = (
 
 export const loginThunk = (email, password) => async (dispatch) => {
 	try {
+		console.log(BASE_URL)
+
 		const body = {
 			email: email,
 			password: password,

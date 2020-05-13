@@ -45,10 +45,7 @@ const NavbarView = (props) => {
 					
 					Logged in as: {loggedInUser.email}
 				</Link>
-				{/* <LinkButton onClick={logout} to="/">
-					Sign Out
-				</LinkButton> */}
-				<Button onClick={logout}><Link to = "/">Sign Out</Link></Button>
+				<Button onClick={logout} color="inherit"><Link to = "/" style={{ textDecoration: "none", color: "white" }}>Sign Out</Link></Button>
 			</Typography>
 		);
 	}

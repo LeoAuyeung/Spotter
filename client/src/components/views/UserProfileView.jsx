@@ -63,7 +63,7 @@ const UserProfileView = props => {
                                 
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                               
+
                             </Typography>
                             </CardContent>
                         </Card>)}
