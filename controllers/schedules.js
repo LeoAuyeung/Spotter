@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 
 const schedulesController = {
     getAllSchedules: getAllSchedules,
+    getSchedules: getSchedules,
     createSchedule: createSchedule,
     editSchedule: editSchedule,
     deleteSchedule: deleteSchedule,
@@ -18,6 +19,19 @@ async function getAllSchedules(req, res, next) {
 		var allSchedules = await database.schedules.findAll();
 		res.status(200).json(allSchedules);
 	} catch (err) {
+		console.log(err);
+	}
+}
+
+async function getSchedules(req, res, next) {
+	try {
+        const decodedJwt = await decodeJwt(req.headers);
+        const currentUser = await database.users.findOne({ raw: true , where: { email: decodedJwt.email } });
+        const schedules = await database.schedules.findAll({ raw: true, where: { userId: currentUser.id } });
+        schedules.sort((a, b) => (a.startTime > b.startTime) ? 1 : -1);
+		res.status(200).json(schedules);
+    }
+    catch (err) {
 		console.log(err);
 	}
 }
