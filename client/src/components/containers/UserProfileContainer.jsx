@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+
+import { compose } from "redux";
+import { withRouter } from "react-router";
 import { connect } from "react-redux";
 
-import { me, getProfileThunk } from "../../actions";
+import { me, getProfileThunk, connectWithUserThunk } from "../../actions";
 
 import { UserProfileView } from "../views";
 
@@ -14,15 +17,22 @@ class UserProfileContainer extends Component {
 	}
 
 	componentDidMount = async () => {
-		await me();
-
 		const id = window.location.href.split("/").pop();
 		await this.props.getProfile(id);
 
+		console.log("hello");
 		this.setState({
 			user: this.props.currentUser,
 		});
 	};
+
+	// handleConnect = async () => {
+	// 	const id = window.location.href.split("/").pop();
+
+	// 	await this.props.connectWithUser(id);
+
+	// 	window.location.reload();
+	// };
 
 	render() {
 		return <UserProfileView user={this.state.user} />;
@@ -38,12 +48,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getProfile: (id) => dispatch(getProfileThunk(id)),
 		me: () => dispatch(me()),
+		getProfile: (id) => dispatch(getProfileThunk(id)),
+		connectWithUser: (id) => dispatch(connectWithUserThunk(id)),
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+export default compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
 )(UserProfileContainer);

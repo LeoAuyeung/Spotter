@@ -4,6 +4,7 @@ import {
 	LOGOUT,
 	GET_PROFILE,
 	EDIT_BIO,
+	CREATE_CONNECTION,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -38,6 +39,10 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				currentUser: action.payload,
+			};
+		case CREATE_CONNECTION:
+			return {
+				...state,
 			};
 		default:
 			return state;

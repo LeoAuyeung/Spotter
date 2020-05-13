@@ -340,6 +340,31 @@ async function otherProfile(req, res, next) {
 		).then((completed) => {
 			return completed;
 		});
+
+		var userFeedList = await Promise.all(
+			connectionsList.map(async (connectionElement) => {
+				const feedInfo = await database.activityFeed.findOne({
+					raw: true,
+					where: { userId: connectionElement.userId_2 },
+				});
+				const connectProfile = await database.users.findOne({
+					raw: true,
+					where: { id: connectionElement.userId_2 },
+				});
+				let retFeedInfo = { feedUser: connectProfile, feed: feedInfo };
+				return retFeedInfo;
+			})
+		).then((completed) => {
+			return completed;
+		});
+		let retObj = {
+			profile: currentUser,
+			connections: connectionProfiles,
+			workouts: userWorkoutVolumeJoined,
+			gyms: userGymsListJoined,
+			feed: userFeedList,
+		};
+		return res.send(retObj);
 	} catch (err) {
 		console.log(err);
 		res.status(401).json({ code: "error", message: "Profile does not exist" });
