@@ -15,6 +15,7 @@ import {
 	NavbarContainer,
 	EditScheduleContainer,
 	ErrorContainer,
+	PotentialSessionsContainer
 } from "./components";
 
 import { me } from "./actions";
@@ -50,6 +51,7 @@ class App extends Component {
 					render={() => <EditScheduleContainer />}
 				/>
 				<Route exact path="/error" render={() => <ErrorContainer />} />
+				<Route exact path="/connect/find/sessions" render={() => <PotentialSessionsContainer />} />
 			</Router>
 		);
 	}
