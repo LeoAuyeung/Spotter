@@ -1,4 +1,9 @@
-import { GET_USERS, LOGIN, LOGOUT } from "../actions/actionTypes";
+import {
+	GET_USERS,
+	LOGIN,
+	LOGOUT,
+	GET_MY_PROFILE,
+} from "../actions/actionTypes";
 
 const initialState = {
 	loggedInUser: {},
@@ -22,6 +27,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loggedInUser: {},
+			};
+		case GET_MY_PROFILE:
+			return {
+				...state,
+				currentUser: action.payload,
 			};
 		default:
 			return state;

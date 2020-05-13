@@ -56,10 +56,10 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispathToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		getUsers: () => dispatch(getUsersThunk()),
 	};
 };
 
-export default connect(mapStateToProps, mapDispathToProps)(UsersContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

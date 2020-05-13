@@ -1,4 +1,4 @@
-import { GET_USERS, LOGIN, LOGOUT } from "./actionTypes";
+import { GET_USERS, LOGIN, LOGOUT, GET_MY_PROFILE } from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
@@ -21,6 +21,13 @@ const login = (user) => {
 const logout = () => {
 	return {
 		type: LOGOUT,
+	};
+};
+
+const getMyProfile = (user) => {
+	return {
+		type: GET_MY_PROFILE,
+		payload: user,
 	};
 };
 
@@ -79,7 +86,7 @@ export const addUserThunk = (
 
 export const loginThunk = (email, password) => async (dispatch) => {
 	try {
-		console.log(BASE_URL)
+		console.log(BASE_URL);
 
 		const body = {
 			email: email,
@@ -124,5 +131,20 @@ export const me = () => async (dispatch) => {
 		dispatch(login(loggedInUser || {}));
 	} catch (err) {
 		console.error(err);
+	}
+};
+
+export const getMyProfileThunk = () => async (dispatch) => {
+	try {
+		const headers = {
+			authorization: localStorage.token,
+		};
+		const res = await axios.get(`${BASE_URL}/api/users/profile`, { headers });
+
+		const user = res.data;
+
+		dispatch(getMyProfile(user));
+	} catch (err) {
+		console.log(err);
 	}
 };
