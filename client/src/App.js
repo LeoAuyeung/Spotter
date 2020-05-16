@@ -19,7 +19,7 @@ import {
 	NotificationsContainer,
 	FavoritesContainer,
 	PotentialSessionsContainer,
-	ConnectionsContainer,
+	SessionsContainer,
 } from "./components";
 
 import { me, getToken } from "./actions";
@@ -63,7 +63,6 @@ class App extends Component {
 					path="/notifications"
 					render={() => <NotificationsContainer />}
 				/>
-
 				<Route
 					exact
 					path="/profile/:id"
@@ -84,14 +83,10 @@ class App extends Component {
 				<Route exact path="/favorites" render={() => <FavoritesContainer />} />
 				<Route
 					exact
-					path="/connections"
-					render={() => <ConnectionsContainer />}
-				/>
-				<Route
-					exact
-					path="/connect/find/sessions"
+					path="/profile/:id/connect"
 					render={() => <PotentialSessionsContainer />}
 				/>
+				<Route exact path="/sessions" render={() => <SessionsContainer />} />
 			</Router>
 		);
 

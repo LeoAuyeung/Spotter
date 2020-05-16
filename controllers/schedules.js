@@ -181,6 +181,7 @@ async function deleteSchedule(req, res, next) {
 
 async function getScheduleOverlaps(req, res, next) {
 	try {
+		console.log("sfubqafoaqbsfo");
 		const { userId_1, userId_2 } = req.body;
 
 		var user1_sched = await database.schedules.findAll({

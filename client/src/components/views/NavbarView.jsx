@@ -112,14 +112,6 @@ const NavbarView = (props) => {
 							</MenuItem>
 							<MenuItem onClick={handleClose}>
 								<Link
-									to="/connections"
-									style={{ textDecoration: "none", color: "black" }}
-								>
-									Connections
-								</Link>
-							</MenuItem>
-							<MenuItem onClick={handleClose}>
-								<Link
 									to="/favorites"
 									style={{ textDecoration: "none", color: "black" }}
 								>
@@ -145,10 +137,10 @@ const NavbarView = (props) => {
 
 							<MenuItem onClick={handleClose}>
 								<Link
-									to="/connect/find/sessions"
+									to="/sessions"
 									style={{ textDecoration: "none", color: "black" }}
 								>
-									Sessions
+									Confirmed Sessions
 								</Link>
 							</MenuItem>
 						</Menu>

@@ -7,6 +7,9 @@ import {
 	CREATE_CONNECTION,
 	GET_FAVORITES,
 	GET_CONNECTIONS,
+	GET_OVERLAP_SCHEDULES,
+	CREATE_INVITE,
+	GET_CONFIRMED_SESSIONS,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -17,7 +20,6 @@ const headers = {
 };
 
 export const getToken = () => {
-	console.log(localStorage.token);
 	return localStorage.token;
 };
 
@@ -73,6 +75,26 @@ const getConnections = (connections) => {
 	return {
 		type: GET_CONNECTIONS,
 		payload: connections,
+	};
+};
+
+const getOverlapSchedules = (overlaps) => {
+	return {
+		type: GET_OVERLAP_SCHEDULES,
+		payload: overlaps,
+	};
+};
+
+const createInvite = () => {
+	return {
+		type: CREATE_INVITE,
+	};
+};
+
+const getConfirmedSessions = (sessions) => {
+	return {
+		type: GET_CONFIRMED_SESSIONS,
+		payload: sessions,
 	};
 };
 
@@ -179,14 +201,11 @@ export const getMyProfileThunk = () => async (dispatch) => {
 	}
 };
 
-// need backend for profile
 export const getProfileThunk = (id) => async (dispatch) => {
 	try {
 		const res = await axios.get(`${BASE_URL}/api/users/profile/${id}`, {
 			headers: headers,
 		});
-
-		console.log(res.data);
 
 		const user = res.data;
 
@@ -263,6 +282,53 @@ export const getConnectionsThunk = () => async (dispatch) => {
 		const connections = res.data;
 
 		dispatch(getConnections(connections));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getOverlapSchedulesThunk = (id_1, id_2) => async (dispatch) => {
+	try {
+		const res = await axios.post(
+			`${BASE_URL}/api/schedules/overlaps`,
+			{ userId_1: Number(id_1), userId_2: Number(id_2) },
+			{ headers: headers }
+		);
+
+		const overlaps = res.data;
+
+		dispatch(getOverlapSchedules(overlaps));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const createInviteThunk = (id, session) => async (dispatch) => {
+	try {
+		await axios.post(
+			`${BASE_URL}/api/sessions`,
+			{ session: session, inviteUserId: id },
+			{ headers: headers }
+		);
+
+		dispatch(createInvite());
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getConfirmedSessionsThunk = (id) => async (dispatch) => {
+	try {
+		const res = await axios.get(`${BASE_URL}/api/sessions`, {
+			headers: headers,
+		});
+
+		const sessions = res.data;
+
+		const myData = sessions.filter((s) => (s.ownerId = id));
+		const confirmedSessions = myData.filter((s) => s.isConfirmed);
+
+		dispatch(getConfirmedSessions(confirmedSessions));
 	} catch (err) {
 		console.log(err);
 	}

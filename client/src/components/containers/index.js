@@ -14,3 +14,4 @@ export { default as NotificationsContainer } from "./NotificationsContainer.jsx"
 export { default as FavoritesContainer } from "./FavoritesContainer.jsx";
 export { default as PotentialSessionsContainer } from "./PotentialSessionsContainer.jsx";
 export { default as ConnectionsContainer } from "./ConnectionsContainer.jsx";
+export { default as SessionsContainer } from "./SessionsContainer.jsx";

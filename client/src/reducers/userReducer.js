@@ -6,7 +6,9 @@ import {
 	EDIT_BIO,
 	CREATE_CONNECTION,
 	GET_FAVORITES,
-	GET_CONNECTIONS,
+	GET_OVERLAP_SCHEDULES,
+	CREATE_INVITE,
+	GET_CONFIRMED_SESSIONS,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
 	currentUser: {},
 	favorites: [],
 	connections: [],
+	overlapTimes: [],
+	sessions: [],
 };
 
 export default (state = initialState, action) => {
@@ -53,10 +57,19 @@ export default (state = initialState, action) => {
 				...state,
 				favorites: action.payload,
 			};
-		case GET_CONNECTIONS:
+		case GET_OVERLAP_SCHEDULES:
 			return {
 				...state,
-				connections: action.payload,
+				overlapTimes: action.payload,
+			};
+		case CREATE_INVITE:
+			return {
+				...state,
+			};
+		case GET_CONFIRMED_SESSIONS:
+			return {
+				...state,
+				sessions: action.payload,
 			};
 		default:
 			return state;

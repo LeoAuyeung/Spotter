@@ -1,6 +1,6 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var auth = require('../middleware/auth');
+var auth = require("../middleware/auth");
 
 const schedulesController = require("../controllers/schedules");
 
