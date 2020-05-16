@@ -18,32 +18,29 @@ class EditScheduleContainer extends Component {
 				{ name: "endTime", title: "EndTime" },
 			],
 			schedules: undefined,
+			userSelected: false,
 		};
 	}
 
 	componentDidMount = async () => {
-		const { currentUser } = this.props;
-
-		if (
-			Object.keys(currentUser).length === 0 &&
-			currentUser.constructor === Object
-		) {
-			this.props.history.push("/error");
-		} else {
-			await this.props.getSchedules(currentUser.profile.id);
+		if (this.props.currentUser.profile !== undefined) {
+			await this.props.getSchedules(this.props.currentUser.profile.id);
 			this.setState({
 				schedules: this.props.schedules,
+				userSelected: true,
 			});
 		}
 	};
 
 	render() {
-		return (
+		return this.state.userSelected ? (
 			<EditScheduleView
 				rows={this.state.rows}
 				columns={this.state.columns}
 				schedules={this.state.schedules}
 			/>
+		) : (
+			<div>Please select a user to edit calendar.</div>
 		);
 	}
 }
