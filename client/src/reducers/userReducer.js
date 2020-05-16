@@ -6,6 +6,7 @@ import {
 	EDIT_BIO,
 	CREATE_CONNECTION,
 	GET_FAVORITES,
+	GET_CONNECTIONS,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
 	possibleMatches: [],
 	currentUser: {},
 	favorites: [],
+	connections: [],
 };
 
 export default (state = initialState, action) => {
@@ -50,6 +52,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				favorites: action.payload,
+			};
+		case GET_CONNECTIONS:
+			return {
+				...state,
+				connections: action.payload,
 			};
 		default:
 			return state;

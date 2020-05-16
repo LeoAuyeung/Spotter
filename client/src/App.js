@@ -19,6 +19,7 @@ import {
 	NotificationsContainer,
 	FavoritesContainer,
 	PotentialSessionsContainer,
+	ConnectionsContainer,
 } from "./components";
 
 import { me } from "./actions";
@@ -79,6 +80,11 @@ class App extends Component {
 				/>
 				<Route exact path="/error" render={() => <ErrorContainer />} />
 				<Route exact path="/favorites" render={() => <FavoritesContainer />} />
+				<Route
+					exact
+					path="/connections"
+					render={() => <ConnectionsContainer />}
+				/>
 				<Route
 					exact
 					path="/connect/find/sessions"

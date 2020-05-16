@@ -6,10 +6,15 @@ import {
 	EDIT_BIO,
 	CREATE_CONNECTION,
 	GET_FAVORITES,
+	GET_CONNECTIONS,
 } from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
+
+const headers = {
+	authorization: localStorage.token,
+};
 
 // Action creator
 const getUsers = (users) => {
@@ -59,12 +64,16 @@ const getFavorites = (users) => {
 	};
 };
 
+const getConnections = (connections) => {
+	return {
+		type: GET_CONNECTIONS,
+		payload: connections,
+	};
+};
+
 // Thunks
 export const getUsersThunk = () => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
 		const res = await axios.get(`${BASE_URL}/api/users`, { headers });
 
 		dispatch(getUsers(res.data));
@@ -143,9 +152,6 @@ export const logoutThunk = () => async (dispatch) => {
 
 export const me = () => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
 		const res = await axios.get(`${BASE_URL}/api/users/me`, { headers });
 
 		const loggedInUser = res.data;
@@ -158,9 +164,6 @@ export const me = () => async (dispatch) => {
 
 export const getMyProfileThunk = () => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
 		const res = await axios.get(`${BASE_URL}/api/users/profile`, { headers });
 
 		const user = res.data;
@@ -174,10 +177,6 @@ export const getMyProfileThunk = () => async (dispatch) => {
 // need backend for profile
 export const getProfileThunk = (id) => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = await axios.get(`${BASE_URL}/api/users/profile/${id}`, {
 			headers: headers,
 		});
@@ -194,10 +193,6 @@ export const getProfileThunk = (id) => async (dispatch) => {
 
 export const editProfileBioThunk = (bio) => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = axios.put(
 			`${BASE_URL}/api/users/profile/editbio`,
 			{
@@ -218,10 +213,6 @@ export const editProfileBioThunk = (bio) => async (dispatch) => {
 
 export const connectWithUserThunk = (id) => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = axios.post(`${BASE_URL}/api/connections/${id}`, null, {
 			headers: headers,
 		});
@@ -234,10 +225,6 @@ export const connectWithUserThunk = (id) => async (dispatch) => {
 
 export const favoriteUserThunk = (id) => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = axios.post(`${BASE_URL}/api/favorites/${id}`, null, {
 			headers: headers,
 		});
@@ -250,10 +237,6 @@ export const favoriteUserThunk = (id) => async (dispatch) => {
 
 export const getFavoritesThunk = (id) => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = await axios.get(`${BASE_URL}/api/favorites/${id}`, {
 			headers: headers,
 		});
@@ -261,6 +244,20 @@ export const getFavoritesThunk = (id) => async (dispatch) => {
 		const users = res.data;
 
 		dispatch(getFavorites(users));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const getConnectionsThunk = () => async (dispatch) => {
+	try {
+		const res = await axios.get(`${BASE_URL}/api/connections/myConnections`, {
+			headers: headers,
+		});
+
+		const connections = res.data;
+
+		dispatch(getConnections(connections));
 	} catch (err) {
 		console.log(err);
 	}
