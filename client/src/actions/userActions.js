@@ -6,7 +6,6 @@ import {
 	EDIT_BIO,
 	CREATE_CONNECTION,
 	GET_FAVORITES,
-	ME,
 } from "./actionTypes";
 import axios from "axios";
 
@@ -57,13 +56,6 @@ const getFavorites = (users) => {
 	return {
 		type: GET_FAVORITES,
 		payload: users,
-	};
-};
-
-const mee = (data) => {
-	return {
-		type: ME,
-		payload: data,
 	};
 };
 
@@ -156,18 +148,9 @@ export const me = () => async (dispatch) => {
 		};
 		const res = await axios.get(`${BASE_URL}/api/users/me`, { headers });
 
-		const loggedInUser = {
-			email: res.data.email,
-		};
+		const loggedInUser = res.data;
 
-		const res2 = await axios.get(`${BASE_URL}/api/users/profile`, {
-			headers,
-		});
-
-		const user = res2.data;
-
-		dispatch(mee([loggedInUser || {}, user]));
-		// dispatch(login(loggedInUser || {}));
+		dispatch(login(loggedInUser || {}));
 	} catch (err) {
 		console.error(err);
 	}

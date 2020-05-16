@@ -18,16 +18,20 @@ import {
 	ManageInvitesContainer,
 	NotificationsContainer,
 	FavoritesContainer,
-	PotentialSessionsContainer
+	PotentialSessionsContainer,
 } from "./components";
 
 import { me } from "./actions";
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-		props.loadInitialData();
-	}
+	// constructor(props) {
+	// 	super(props);
+	// 	props.loadInitialData();
+	// }
+
+	componentDidMount = async () => {
+		this.props.loadInitialData();
+	};
 
 	render() {
 		return (
@@ -67,7 +71,11 @@ class App extends Component {
 				/>
 				<Route exact path="/error" render={() => <ErrorContainer />} />
 				<Route exact path="/favorites" render={() => <FavoritesContainer />} />
-				<Route exact path="/connect/find/sessions" render={() => <PotentialSessionsContainer />} />
+				<Route
+					exact
+					path="/connect/find/sessions"
+					render={() => <PotentialSessionsContainer />}
+				/>
 			</Router>
 		);
 	}

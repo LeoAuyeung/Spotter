@@ -162,16 +162,33 @@ async function registerUser(req, res, next) {
 
 async function me(req, res, next) {
 	try {
-		const authHeader = req.headers.authorization;
-		if (authHeader) {
-			const token = authHeader;
-			jwt.verify(token, "youraccesstokensecret", (err, email) => {
-				if (!err) {
-					console.log(err);
-					return res.status(200).send({ email: email.email });
-				}
-			});
-		}
+		// const authHeader = req.headers.authorization;
+		// if (authHeader) {
+		// 	const token = authHeader;
+		// 	jwt.verify(token, "youraccesstokensecret", (err, email) => {
+		// 		if (!err) {
+		// 			console.log(err);
+		// 			return res.status(200).send({ email: email.email });
+		// 		}
+		// 	});
+		// }
+
+		console.log(req.headers);
+		let decodedJwt = await decodeJwt(req.headers);
+		let currentUser = await database.users.findOne({
+			raw: true,
+			where: { email: decodedJwt.email },
+		});
+
+		currentUser = {
+			id: currentUser.id,
+			email: currentUser.email,
+			first: currentUser.first,
+			last: currentUser.last,
+			name: `${currentUser.first} ${currentUser.last}`,
+		};
+
+		return res.send(currentUser);
 	} catch (err) {
 		console.log(err);
 	}

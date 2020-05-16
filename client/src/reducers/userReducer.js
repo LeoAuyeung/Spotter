@@ -6,7 +6,6 @@ import {
 	EDIT_BIO,
 	CREATE_CONNECTION,
 	GET_FAVORITES,
-	ME,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -51,12 +50,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				favorites: action.payload,
-			};
-		case ME:
-			return {
-				...state,
-				loggedInUser: action.payload[0],
-				currentUser: action.payload[1],
 			};
 		default:
 			return state;

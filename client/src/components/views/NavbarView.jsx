@@ -42,7 +42,7 @@ const NavbarView = (props) => {
 		loggedInView = (
 			<Typography variant="h6" className={classes.title}>
 				<Link to="/profile" style={{ textDecoration: "none", color: "white" }}>
-					Logged in as: {loggedInUser.email}
+					Logged in as: {loggedInUser.name}
 				</Link>
 				<Button onClick={logout} color="inherit">
 					<Link to="/" style={{ textDecoration: "none", color: "white" }}>
@@ -90,6 +90,14 @@ const NavbarView = (props) => {
 							open={Boolean(anchorEl)}
 							onClose={handleClose}
 						>
+							<MenuItem onClick={handleClose}>
+								<Link
+									to="/profile"
+									style={{ textDecoration: "none", color: "black" }}
+								>
+									Profile
+								</Link>
+							</MenuItem>
 							<MenuItem onClick={handleClose}>
 								<Link
 									to="/users"
