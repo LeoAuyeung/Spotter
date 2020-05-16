@@ -24,17 +24,25 @@ import {
 import { me } from "./actions";
 
 class App extends Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	props.loadInitialData();
-	// }
+	constructor(props) {
+		super(props);
+		this.state = {
+			authenticated: false,
+		};
 
-	componentDidMount = async () => {
-		this.props.loadInitialData();
+		this.checkAuthentication();
+	}
+
+	checkAuthentication = async () => {
+		await this.props.loadInitialData();
+
+		this.setState({
+			authenticated: true,
+		});
 	};
 
 	render() {
-		return (
+		const data = (
 			<Router>
 				<NavbarContainer></NavbarContainer>
 				<Route exact path="/" render={() => <HomeContainer />} />
@@ -78,6 +86,10 @@ class App extends Component {
 				/>
 			</Router>
 		);
+
+		const loading = <div>Logging in. Please wait.</div>;
+
+		return this.state.authenticated ? data : loading;
 	}
 }
 

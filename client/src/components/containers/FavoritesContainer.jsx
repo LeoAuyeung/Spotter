@@ -15,7 +15,8 @@ class FavoritesComponent extends Component {
 	}
 
 	componentDidMount = async () => {
-		await this.props.getFavorites(this.props.currentUser.profile.id);
+		console.log(this.props.loggedInUser.id);
+		await this.props.getFavorites(this.props.loggedInUser.id);
 
 		this.setState({
 			favorites: this.props.favorites,
@@ -25,7 +26,13 @@ class FavoritesComponent extends Component {
 	render() {
 		let list;
 		if (this.state.favorites !== undefined) {
+			const filteredFavorites = this.state.favorites.filter(
+				(user, index, self) =>
+					self.findIndex((u) => u[0].id === user[0].id) === index
+			);
+
 			list = this.state.favorites.map((f) => (
+				// <Link to={`/profile/${f[0].id}`}></Link>
 				<li style={{ fontSize: "20px" }}>User {f.userId_2}</li>
 			));
 		}
@@ -43,7 +50,7 @@ class FavoritesComponent extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		currentUser: state.user.currentUser,
+		loggedInUser: state.user.loggedInUser,
 		favorites: state.user.favorites,
 	};
 };

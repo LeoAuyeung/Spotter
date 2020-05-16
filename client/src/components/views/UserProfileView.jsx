@@ -80,28 +80,6 @@ const UserProfileView = (props) => {
 			);
 		}
 
-		if (connections !== undefined) {
-			connectionCards = (
-				<div className={classes.container}>
-					{connections.map((c) => (
-						<Card className={classes.card} key={c.id}>
-							<CardMedia component="img" height="200" image={c.profileLink} />
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="h2">
-									<Link className="profile-link" to={`/profile/${c.id}`}>
-										{c.first} {c.last}
-									</Link>
-								</Typography>
-								<Typography variant="body2" color="textSecondary" component="p">
-									{c.gender} / {calculateAge(new Date(c.dob))}
-								</Typography>
-							</CardContent>
-						</Card>
-					))}
-				</div>
-			);
-		}
-
 		userProfile = (
 			<div>
 				<div>
@@ -149,17 +127,6 @@ const UserProfileView = (props) => {
 					</Card>
 				</div>
 				<br></br>
-
-				<div>
-					<Card>
-						<CardContent>
-							<Typography gutterBottom variant="h5" component="h2">
-								Connections
-							</Typography>
-							{connections === undefined ? "" : connectionCards}
-						</CardContent>
-					</Card>
-				</div>
 			</div>
 		);
 	}
