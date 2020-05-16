@@ -10,6 +10,7 @@ import {
 	getSchedulesThunk,
 	createScheduleThunk,
 	editScheduleThunk,
+	deleteScheduleThunk,
 } from "../../actions";
 
 const weekdays = {
@@ -69,8 +70,14 @@ class EditScheduleContainer extends Component {
 		this.setState({
 			schedules: this.props.schedules,
 		});
+	};
 
-		// window.location.reload();
+	handleDeleteSchedule = async (id) => {
+		await this.props.deleteSchedule(id);
+
+		this.setState({
+			schedules: this.props.schedules,
+		});
 	};
 
 	render() {
@@ -79,6 +86,7 @@ class EditScheduleContainer extends Component {
 				schedules={this.state.schedules}
 				handleCreateSchedule={this.handleCreateSchedule}
 				handleEditSchedule={this.handleEditSchedule}
+				handleDeleteSchedule={this.handleDeleteSchedule}
 			/>
 		) : (
 			<div>Loading</div>
@@ -98,6 +106,7 @@ const mapDispatchToProps = (dispatch) => {
 		getSchedules: () => dispatch(getSchedulesThunk()),
 		createSchedule: (schedule) => dispatch(createScheduleThunk(schedule)),
 		editSchedule: (id, schedule) => dispatch(editScheduleThunk(id, schedule)),
+		deleteSchedule: (id) => dispatch(deleteScheduleThunk(id)),
 	};
 };
 

@@ -1,4 +1,9 @@
-import { GET_SCHEDULES, CREATE_SCHEDULE, EDIT_SCHEDULE } from "./actionTypes";
+import {
+	GET_SCHEDULES,
+	CREATE_SCHEDULE,
+	EDIT_SCHEDULE,
+	DELETE_SCHEDULE,
+} from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
@@ -34,6 +39,13 @@ const createSchedule = (schedule) => {
 const editSchedule = (schedules) => {
 	return {
 		type: EDIT_SCHEDULE,
+		payload: schedules,
+	};
+};
+
+const deleteSchedule = (schedules) => {
+	return {
+		type: DELETE_SCHEDULE,
 		payload: schedules,
 	};
 };
@@ -84,9 +96,7 @@ export const createScheduleThunk = (schedule) => async (dispatch) => {
 
 export const editScheduleThunk = (id, schedule) => async (dispatch) => {
 	try {
-		const body = schedule;
-
-		await axios.put(`${BASE_URL}/api/schedules/${id}`, body, {
+		await axios.put(`${BASE_URL}/api/schedules/${id}`, schedule, {
 			headers: headers,
 		});
 
@@ -105,6 +115,32 @@ export const editScheduleThunk = (id, schedule) => async (dispatch) => {
 		}));
 
 		dispatch(editSchedule(processedData));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const deleteScheduleThunk = (id) => async (dispatch) => {
+	try {
+		await axios.delete(`${BASE_URL}/api/schedules/${id}`, {
+			headers: headers,
+		});
+
+		const res = await axios.get(`${BASE_URL}/api/schedules/myschedules`, {
+			headers: headers,
+		});
+
+		const data = res.data;
+
+		const processedData = data.map((s) => ({
+			id: s.id,
+			dayId: s.dayId,
+			day: weekdays[s.dayId],
+			startTime: s.startTime,
+			endTime: s.endTime,
+		}));
+
+		dispatch(deleteSchedule(processedData));
 	} catch (err) {
 		console.log(err);
 	}

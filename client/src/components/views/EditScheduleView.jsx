@@ -3,7 +3,12 @@ import React from "react";
 import MaterialTable from "material-table";
 
 const EditScheduleView = (props) => {
-	const { schedules, handleCreateSchedule, handleEditSchedule } = props;
+	const {
+		schedules,
+		handleCreateSchedule,
+		handleEditSchedule,
+		handleDeleteSchedule,
+	} = props;
 
 	const [state, setState] = React.useState({
 		columns: [
@@ -57,6 +62,7 @@ const EditScheduleView = (props) => {
 					new Promise((resolve) => {
 						setTimeout(() => {
 							resolve();
+							handleDeleteSchedule(oldData.id);
 							setState((prevState) => {
 								const data = [...prevState.data];
 								data.splice(data.indexOf(oldData), 1);

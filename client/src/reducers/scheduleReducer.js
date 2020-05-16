@@ -2,6 +2,7 @@ import {
 	GET_SCHEDULES,
 	CREATE_SCHEDULE,
 	EDIT_SCHEDULE,
+	DELETE_SCHEDULE,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -21,6 +22,11 @@ export default (state = initialState, action) => {
 				currentSchedules: [...state.currentSchedules, action.payload],
 			};
 		case EDIT_SCHEDULE:
+			return {
+				...state,
+				currentSchedules: action.payload,
+			};
+		case DELETE_SCHEDULE:
 			return {
 				...state,
 				currentSchedules: action.payload,
