@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { getFavoritesThunk } from "../../actions";
 
@@ -15,7 +16,6 @@ class FavoritesComponent extends Component {
 	}
 
 	componentDidMount = async () => {
-		console.log(this.props.loggedInUser.id);
 		await this.props.getFavorites(this.props.loggedInUser.id);
 
 		this.setState({
@@ -26,14 +26,19 @@ class FavoritesComponent extends Component {
 	render() {
 		let list;
 		if (this.state.favorites !== undefined) {
-			const filteredFavorites = this.state.favorites.filter(
-				(user, index, self) =>
-					self.findIndex((u) => u[0].id === user[0].id) === index
-			);
+			const filteredFavorites = this.state.favorites
+				.filter(
+					(user, index, self) =>
+						self.findIndex((u) => u[0].id === user[0].id) === index
+				)
+				.map((f) => f[0]);
 
-			list = this.state.favorites.map((f) => (
-				// <Link to={`/profile/${f[0].id}`}></Link>
-				<li style={{ fontSize: "20px" }}>User {f.userId_2}</li>
+			list = filteredFavorites.map((f) => (
+				<li>
+					<Link to={`/profile/${f.id}`}>
+						{f.first} {f.last}
+					</Link>
+				</li>
 			));
 		}
 
