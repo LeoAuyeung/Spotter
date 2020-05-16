@@ -31,7 +31,6 @@ class NotificationsContainer extends Component {
 		const headers = {
 			authorization: localStorage.token,
 		};
-		console.log(headers);
 		var data = {};
 
 		let currentPotentialInvites = await axios.get(
@@ -44,6 +43,13 @@ class NotificationsContainer extends Component {
 	render() {
 		if (this.state.currNotifications == undefined) {
 			return "";
+		} else if (this.state.currNotifications.length === 0) {
+			return (
+				<div>
+					<h1>Notifications</h1>
+					<div>No new notifications!</div>
+				</div>
+			);
 		}
 		var newList = this.state.currNotifications.map((currNotif) => {
 			return (
@@ -59,7 +65,12 @@ class NotificationsContainer extends Component {
 				</div>
 			);
 		});
-		return <div>{newList}</div>;
+		return (
+			<div>
+				<h1>Notifications</h1>
+				{newList}
+			</div>
+		);
 	}
 }
 
