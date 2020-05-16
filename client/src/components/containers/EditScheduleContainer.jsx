@@ -29,6 +29,8 @@ class EditScheduleContainer extends Component {
 				schedules: this.props.schedules,
 				userSelected: true,
 			});
+		} else {
+			this.props.history.goBack();
 		}
 	};
 
