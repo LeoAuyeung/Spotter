@@ -90,6 +90,11 @@ const NavbarView = (props) => {
 							onClose={handleClose}
 						>
 							<MenuItem onClick={handleClose}>
+								<Link to="/" style={{ textDecoration: "none", color: "black" }}>
+									Home
+								</Link>
+							</MenuItem>
+							<MenuItem onClick={handleClose}>
 								<Link
 									to="/profile"
 									style={{ textDecoration: "none", color: "black" }}

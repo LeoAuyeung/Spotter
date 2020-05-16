@@ -22,24 +22,26 @@ import {
 	ConnectionsContainer,
 } from "./components";
 
-import { me } from "./actions";
+import { me, getToken } from "./actions";
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			authenticated: false,
+			loading: true,
 		};
 
 		this.checkAuthentication();
 	}
 
 	checkAuthentication = async () => {
-		await this.props.loadInitialData();
-
-		this.setState({
-			authenticated: true,
-		});
+		if (getToken() !== undefined) {
+			await this.props.loadInitialData();
+		} else {
+			this.setState({
+				loading: false,
+			});
+		}
 	};
 
 	render() {
@@ -95,7 +97,7 @@ class App extends Component {
 
 		const loading = <div>Logging in. Please wait.</div>;
 
-		return this.state.authenticated ? data : loading;
+		return this.state.loading ? data : loading;
 	}
 }
 

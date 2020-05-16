@@ -16,6 +16,11 @@ const headers = {
 	authorization: localStorage.token,
 };
 
+export const getToken = () => {
+	console.log(localStorage.token);
+	return localStorage.token;
+};
+
 // Action creator
 const getUsers = (users) => {
 	return {
