@@ -14,39 +14,17 @@ import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 
 const EditScheduleView = (props) => {
-	const { rows, columns, getRowId, commitChanges } = props;
+	const { schedules, rows, columns, getRowId, commitChanges } = props;
+
+	console.log(schedules);
+
 	const [state, setState] = React.useState({
 		columns: [
 			{ title: "Day", field: "day" },
 			{ title: "Start Time", field: "startTime" },
 			{ title: "End Time", field: "endTime" },
 		],
-		data: [
-			{
-				id: 2,
-				day: "Monday",
-				startTime: "11:00AM",
-				endTime: "12:00PM",
-			},
-			{
-				id: 3,
-				day: "Tuesday",
-				startTime: "1:00PM",
-				endTime: "2:00PM",
-			},
-			{
-				id: 4,
-				day: "Thursday",
-				startTime: "9:00AM",
-				endTime: "11:00AM",
-			},
-			{
-				id: 5,
-				day: "Friday",
-				startTime: "11:00AM",
-				endTime: "12:00PM",
-			},
-		],
+		data: schedules,
 	});
 	return (
 		<MaterialTable

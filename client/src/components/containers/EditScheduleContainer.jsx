@@ -23,8 +23,8 @@ class EditScheduleContainer extends Component {
 	}
 
 	componentDidMount = async () => {
-		if (this.props.currentUser.profile !== undefined) {
-			await this.props.getSchedules(this.props.currentUser.profile.id);
+		if (this.props.loggedInUser.id !== undefined) {
+			await this.props.getSchedules();
 			this.setState({
 				schedules: this.props.schedules,
 				userSelected: true,
@@ -42,21 +42,21 @@ class EditScheduleContainer extends Component {
 				schedules={this.state.schedules}
 			/>
 		) : (
-			<div>Please select a user to edit calendar.</div>
+			<div>Loading</div>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
-		currentUser: state.user.currentUser,
+		loggedInUser: state.user.loggedInUser,
 		schedules: state.schedule.currentSchedules,
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getSchedules: (id) => dispatch(getSchedulesThunk(id)),
+		getSchedules: () => dispatch(getSchedulesThunk()),
 	};
 };
 
