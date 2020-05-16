@@ -1,36 +1,50 @@
-import { GET_SCHEDULES } from "./actionTypes";
+import { GET_SCHEDULES, CREATE_SCHEDULE, EDIT_SCHEDULE } from "./actionTypes";
 import axios from "axios";
 
 const BASE_URL = "";
 
-const getSchedules = (data) => {
+const weekdays = {
+	1: "Sunday",
+	2: "Monday",
+	3: "Tuesday",
+	4: "Wednesday",
+	5: "Thursday",
+	6: "Friday",
+	7: "Saturday",
+};
+
+const headers = {
+	authorization: localStorage.token,
+};
+
+const getSchedules = (schedules) => {
 	return {
 		type: GET_SCHEDULES,
-		payload: data,
+		payload: schedules,
+	};
+};
+
+const createSchedule = (schedule) => {
+	return {
+		type: CREATE_SCHEDULE,
+		payload: schedule,
+	};
+};
+
+const editSchedule = (schedules) => {
+	return {
+		type: EDIT_SCHEDULE,
+		payload: schedules,
 	};
 };
 
 export const getSchedulesThunk = () => async (dispatch) => {
 	try {
-		const headers = {
-			authorization: localStorage.token,
-		};
-
 		const res = await axios.get(`${BASE_URL}/api/schedules/myschedules`, {
 			headers: headers,
 		});
 
 		const data = res.data;
-
-		const weekdays = {
-			1: "Sunday",
-			2: "Monday",
-			3: "Tuesday",
-			4: "Wednesday",
-			5: "Thursday",
-			6: "Friday",
-			7: "Saturday",
-		};
 
 		const processedData = data.map((s) => ({
 			id: s.id,
@@ -46,24 +60,52 @@ export const getSchedulesThunk = () => async (dispatch) => {
 	}
 };
 
-// export const createScheduleThunk = (schedule) => async (dispatch) => {
-// 	try {
-// 		const headers = {
-// 			authorization: localStorage.token,
-// 		};
+export const createScheduleThunk = (schedule) => async (dispatch) => {
+	try {
+		const res = await axios.post(`${BASE_URL}/api/schedules`, schedule, {
+			headers: headers,
+		});
 
-// 		const res = await axios.post(`${BASE_URL}/api/schedules`);
+		const newSchedule = res.data;
 
-// 		// const res = axios.put(
-// 		// 	`${BASE_URL}/api/users/profile/editbio`,
-// 		// 	{
-// 		// 		bio: bio,
-// 		// 	},
-// 		// 	{
-// 		// 		headers: headers,
-// 		// 	}
-// 		// );
-// 	} catch (err) {
-// 		console.log(err);
-// 	}
-// };
+		const processedSchedule = {
+			id: newSchedule.id,
+			dayId: newSchedule.dayId,
+			day: weekdays[newSchedule.dayId],
+			startTime: newSchedule.startTime,
+			endTime: newSchedule.endTime,
+		};
+
+		dispatch(createSchedule(processedSchedule));
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const editScheduleThunk = (id, schedule) => async (dispatch) => {
+	try {
+		const body = schedule;
+
+		await axios.put(`${BASE_URL}/api/schedules/${id}`, body, {
+			headers: headers,
+		});
+
+		const res = await axios.get(`${BASE_URL}/api/schedules/myschedules`, {
+			headers: headers,
+		});
+
+		const data = res.data;
+
+		const processedData = data.map((s) => ({
+			id: s.id,
+			dayId: s.dayId,
+			day: weekdays[s.dayId],
+			startTime: s.startTime,
+			endTime: s.endTime,
+		}));
+
+		dispatch(editSchedule(processedData));
+	} catch (err) {
+		console.log(err);
+	}
+};

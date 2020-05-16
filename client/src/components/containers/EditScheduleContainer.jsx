@@ -6,17 +6,26 @@ import { connect } from "react-redux";
 
 import { EditScheduleView } from "../views";
 
-import { getSchedulesThunk } from "../../actions";
+import {
+	getSchedulesThunk,
+	createScheduleThunk,
+	editScheduleThunk,
+} from "../../actions";
+
+const weekdays = {
+	sunday: 1,
+	monday: 2,
+	tuesday: 3,
+	wednesday: 4,
+	thursday: 5,
+	friday: 6,
+	saturday: 7,
+};
 
 class EditScheduleContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			columns: [
-				{ name: "day", title: "Day" },
-				{ name: "startTime", title: "Start Time" },
-				{ name: "endTime", title: "EndTime" },
-			],
 			schedules: undefined,
 			userSelected: false,
 		};
@@ -34,12 +43,42 @@ class EditScheduleContainer extends Component {
 		}
 	};
 
+	handleCreateSchedule = async (schedule) => {
+		const data = {
+			dayId: weekdays[schedule.day.toLowerCase()],
+			startTime: schedule.startTime,
+			endTime: schedule.endTime,
+		};
+
+		await this.props.createSchedule(data);
+
+		this.setState({
+			schedules: this.props.schedules,
+		});
+	};
+
+	handleEditSchedule = async (id, schedule) => {
+		const data = {
+			dayId: weekdays[schedule.day.toLowerCase()],
+			startTime: schedule.startTime,
+			endTime: schedule.endTime,
+		};
+
+		await this.props.editSchedule(id, data);
+
+		this.setState({
+			schedules: this.props.schedules,
+		});
+
+		// window.location.reload();
+	};
+
 	render() {
 		return this.state.userSelected ? (
 			<EditScheduleView
-				rows={this.state.rows}
-				columns={this.state.columns}
 				schedules={this.state.schedules}
+				handleCreateSchedule={this.handleCreateSchedule}
+				handleEditSchedule={this.handleEditSchedule}
 			/>
 		) : (
 			<div>Loading</div>
@@ -57,6 +96,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getSchedules: () => dispatch(getSchedulesThunk()),
+		createSchedule: (schedule) => dispatch(createScheduleThunk(schedule)),
+		editSchedule: (id, schedule) => dispatch(editScheduleThunk(id, schedule)),
 	};
 };
 

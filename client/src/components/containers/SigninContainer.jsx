@@ -21,10 +21,11 @@ class SigninContainer extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	handleSubmit = (event) => {
+	handleSubmit = async (event) => {
 		event.preventDefault();
-		this.props.signIn(this.state.email, this.state.password);
-		this.props.history.goBack();
+		await this.props.signIn(this.state.email, this.state.password);
+		this.props.history.push("/");
+		window.location.reload();
 	};
 
 	render() {

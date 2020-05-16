@@ -1,25 +1,13 @@
 import React from "react";
-// import Paper from "@material-ui/core/Paper";
-// import { EditingState } from "@devexpress/dx-react-grid";
-// import {
-//   Grid,
-//   Table,
-//   TableHeaderRow,
-//   TableEditRow,
-//   TableEditColumn
-// } from "@devexpress/dx-react-grid-material-ui";
+
 import MaterialTable from "material-table";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
 
 const EditScheduleView = (props) => {
-	const { schedules, rows, columns, getRowId, commitChanges } = props;
-
-	console.log(schedules);
+	const { schedules, handleCreateSchedule, handleEditSchedule } = props;
 
 	const [state, setState] = React.useState({
 		columns: [
+			{ title: "ID", field: "id" },
 			{ title: "Day", field: "day" },
 			{ title: "Start Time", field: "startTime" },
 			{ title: "End Time", field: "endTime" },
@@ -36,6 +24,7 @@ const EditScheduleView = (props) => {
 					new Promise((resolve) => {
 						setTimeout(() => {
 							resolve();
+							handleCreateSchedule(newData);
 							setState((prevState) => {
 								const data = [...prevState.data];
 								data.push(newData);
@@ -48,9 +37,17 @@ const EditScheduleView = (props) => {
 						setTimeout(() => {
 							resolve();
 							if (oldData) {
+								handleEditSchedule(oldData.id, newData);
 								setState((prevState) => {
 									const data = [...prevState.data];
-									data[data.indexOf(oldData)] = newData;
+									const dataNoID = {
+										id: oldData.id,
+										day: newData.day,
+										startTime: newData.startTime,
+										endTime: newData.endTime,
+									};
+
+									data[data.indexOf(oldData)] = dataNoID;
 									return { ...prevState, data };
 								});
 							}
